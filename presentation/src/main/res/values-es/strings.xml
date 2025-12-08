@@ -1,0 +1,27 @@
+<resources>
+    <string name="app_name">Calendar App</string>
+    <string name="slogan">Organiza tu tiempo, comparte tus calendarios</string>
+    <string name="email_label">Correo electronico</string>
+    <string name="icon_label">Icono</string>
+    <string name="email_placeholder">tucorreo@correo.com</string>
+    <string name="password_label">Contraseña</string>
+    <string name="password_placeholder">Introduce tu contraseña</string>
+    <string name="login">Inicar sesion</string>
+    <string name="login_subtitle">Introduce tus credenciales para iniciar sesion</string>
+    <string name="noaccount_question">¿No tienes cuenta?</string>
+    <string name="signuphere_link">Registrate</string>
+    <string name="tems_accpetance">Al continuar, aceptas nuestros términos y condiciones</string>
+    <string name="registration">Registrate</string>
+    <string name="registration_subtitle">Completa el formulario para crear una cuenta</string>
+    <string name="alreadyaccount_question">¿Ya tienes cuenta?</string>
+    <string name="loginhere_link">Inciia sesion</string>
+    <string name="passwordrepeat_placeholder">Introduce la contraseña de nuevo</string>
+    <string name="passwordrepeat_label">Contraseña repetida</string>
+    <string name="email_invalid">Debes introducir un email valido</string>
+    <string name="password_invalid">La contraseña debe tener minio 8 caracteres. Y contener minimo una mayuscula, minuscula y un simbolo</string>
+    <string name="password_notmatch">Las contraseñas no coiniciden</string>
+    <string name="firstname_label">Nombre</string>
+    <string name="lastname_label">Apellidos</string>
+    <string name="firstname_placeholder">Introduce tu nombre</string>
+    <string name="lastname_placeholder">Introduce tus apellidos</string>
+</resources>

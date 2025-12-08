@@ -1,0 +1,27 @@
+<resources>
+    <string name="app_name">Calendar App</string>
+    <string name="slogan">Organize your time, share your calendar</string>
+    <string name="email_label">Email</string>
+    <string name="icon_label">Icon</string>
+    <string name="email_placeholder">email@email.com</string>
+    <string name="password_label">Password</string>
+    <string name="password_placeholder">Input your password</string>
+    <string name="login">Login</string>
+    <string name="login_subtitle">Input your credentals to Log In</string>
+    <string name="noaccount_question">Don\'t have an account yet?</string>
+    <string name="signuphere_link">Sign Up</string>
+    <string name="tems_accpetance">By continuing, you agree to our terms and conditions</string>
+    <string name="registration">Register</string>
+    <string name="registration_subtitle">Complete the form to create a new account</string>
+    <string name="alreadyaccount_question">Already have an account?</string>
+    <string name="loginhere_link">Log In here</string>
+    <string name="passwordrepeat_placeholder">Input your password again</string>
+    <string name="passwordrepeat_label">Same password</string>
+    <string name="email_invalid">You need to provide a valid email</string>
+    <string name="password_invalid">Password must contain 8 caracters. Must contain at least one capital letter and a symbol</string>
+    <string name="password_notmatch">The password you entered doesn\'t match</string>
+    <string name="firstname_label">First name</string>
+    <string name="lastname_label">Last name</string>
+    <string name="firstname_placeholder">Input your first name</string>
+    <string name="lastname_placeholder">Input your last name</string>
+</resources>
