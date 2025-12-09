@@ -31,9 +31,9 @@ class AuthenticationRepositoryImpl @Inject constructor(
 
         } catch (e: Exception) {
             return if(e is AuthRestException && e.error == AuthErrorCode.InvalidCredentials.value) {
-                Result.failure(exception = DomainError.InvalidCredential().getException())
+                Result.failure(exception = DomainError.InvalidCredential())
             } else {
-                Result.failure(exception = DomainError.Unexpected().getException())
+                Result.failure(exception = DomainError.Unexpected())
             }
         }
 
@@ -65,18 +65,18 @@ class AuthenticationRepositoryImpl @Inject constructor(
             return Result.success(supabaseUser.id)
         } catch (e: Exception) {
             return if(e is AuthRestException) {
-                when(e.error) {
-                    AuthErrorCode.EmailExists.value ->
-                        Result.failure(exception = DomainError.DuplicatedData(name = "Email").getException())
+                    when(e.error) {
+                        AuthErrorCode.UserAlreadyExists.value ->
+                            Result.failure(exception = DomainError.DuplicatedData.EmailAlreadyExists())
 
-                    AuthErrorCode.EmailAddressInvalid.value ->
-                        Result.failure(exception = DomainError.InvalidData(name = "Email").getException())
+                        AuthErrorCode.EmailAddressInvalid.value ->
+                            Result.failure(exception = DomainError.InvalidData.InvalidEmail())
 
-                    else ->
-                        Result.failure(exception = DomainError.Unexpected().getException())
-                }
+                        else ->
+                            Result.failure(exception = DomainError.Unexpected())
+                    }
             } else {
-                Result.failure(exception = DomainError.Unexpected().getException())
+                Result.failure(exception = DomainError.Unexpected())
             }
         }
     }
@@ -88,7 +88,7 @@ class AuthenticationRepositoryImpl @Inject constructor(
             auth.signInWith(Google)
             return Result.success(true)
         } catch(e : Exception) {
-            return Result.failure(DomainError.InvalidCredential().getException())
+            return Result.failure(DomainError.InvalidCredential())
         }
     }
 

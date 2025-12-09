@@ -29,7 +29,10 @@ import com.cristian.calendarapp.presentation.components.IconWithText
 import com.cristian.calendarapp.presentation.viewmodel.AuthViewModel
 import com.cristian.calendarapp.presentation.R
 import com.cristian.calendarapp.presentation.Routes
+import com.cristian.calendarapp.presentation.IUiState
+import com.cristian.calendarapp.presentation.UiState
 import com.cristian.calendarapp.presentation.components.EmailInputField
+import com.cristian.calendarapp.presentation.components.ErrorText
 import com.cristian.calendarapp.presentation.components.NameField
 import com.cristian.calendarapp.presentation.components.PasswordInputField
 
@@ -45,6 +48,7 @@ fun SignUpScreen(navController: NavController) {
     val password by authViewModel.password.observeAsState(initial = "")
     val firstname by authViewModel.firstname.observeAsState(initial = "")
     val lastname by authViewModel.lastname.observeAsState(initial = "")
+    val uiState by authViewModel.uiState.observeAsState(initial = UiState())
 
     val isSubmitButtonVisible by remember {
         derivedStateOf {
@@ -64,7 +68,7 @@ fun SignUpScreen(navController: NavController) {
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             IconWithText()
-
+            ErrorText(uiState)
             CardForm(
                 submitButtonIsEnabled = isSubmitButtonVisible,
                 title = stringResource(R.string.registration),

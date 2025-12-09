@@ -24,4 +24,7 @@
     <string name="lastname_label">Apellidos</string>
     <string name="firstname_placeholder">Introduce tu nombre</string>
     <string name="lastname_placeholder">Introduce tus apellidos</string>
+    <string name="unexpected_error">Ha ocurrido un error</string>
+    <string name="invalid_credentials_error">El email o la contraseña no son correctos</string>
+    <string name="email_exists">El email ya se encuentra en uso</string>
 </resources>

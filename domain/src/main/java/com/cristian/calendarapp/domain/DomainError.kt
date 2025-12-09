@@ -1,13 +1,13 @@
 package com.cristian.calendarapp.domain
 
 
-sealed class DomainError(private val exception: Exception) {
-    class InvalidCredential : DomainError(exception = Exception("Invalid credentials"))
-    class DuplicatedData(val name : String) : DomainError(exception = Exception("$name already exists"))
-    class InvalidData(val name : String) : DomainError(exception = Exception("$name is invalid"))
-    class Unexpected() : DomainError(exception = Exception("Domain Error"))
-
-    fun getException() : Exception {
-        return this.exception
+sealed class DomainError(private val errorMessage : String) : Exception(errorMessage) {
+    class InvalidCredential : DomainError(errorMessage = "Invalid credentials")
+    sealed class DuplicatedData(private val name: String ) : DomainError(errorMessage =  "$name already exists") {
+        class EmailAlreadyExists() : DuplicatedData("Email")
     }
+    sealed class InvalidData(val name : String) : DomainError(errorMessage = "$name is invalid") {
+        class InvalidEmail() : InvalidData("Email")
+    }
+    class Unexpected() : DomainError(errorMessage = "Unexpected error")
 }

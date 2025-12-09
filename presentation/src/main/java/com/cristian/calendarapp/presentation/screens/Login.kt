@@ -32,6 +32,7 @@ import com.cristian.calendarapp.presentation.viewmodel.AuthViewModel
 import com.cristian.calendarapp.presentation.R
 import com.cristian.calendarapp.presentation.Routes
 import com.cristian.calendarapp.presentation.components.EmailInputField
+import com.cristian.calendarapp.presentation.components.ErrorText
 import com.cristian.calendarapp.presentation.components.PasswordInputField
 
 @Composable
@@ -63,13 +64,7 @@ fun LoginScreen(navController: NavController) {
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             IconWithText()
-            if(uiState.isError()) {
-                Text(
-                    text = uiState.error,
-                    color = MaterialTheme.colorScheme.error
-                )
-
-            }
+            ErrorText(uiState)
 
             CardForm(
                 submitButtonIsEnabled = submitButtonIsVisible,

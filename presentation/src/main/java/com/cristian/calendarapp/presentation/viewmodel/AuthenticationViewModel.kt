@@ -4,12 +4,14 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.cristian.calendarapp.domain.DomainError
 import com.cristian.calendarapp.domain.ROLE
 import com.cristian.calendarapp.domain.Resource
 import com.cristian.calendarapp.domain.entity.User
 import com.cristian.calendarapp.domain.usecase.SignInUseCase
 import com.cristian.calendarapp.domain.usecase.SignUpUseCase
 import com.cristian.calendarapp.presentation.UiState
+import com.cristian.calendarapp.presentation.utils.getUiErrorResourceId
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -64,7 +66,7 @@ class AuthViewModel @Inject constructor(
                     _uiState.value = UiState(data = result.data.toString())
                 }
                 is Resource.Error -> {
-                    _uiState.value = UiState(error = result.messsage.toString())
+                    _uiState.value = UiState(errorResourceId = getUiErrorResourceId(result.domainError as DomainError))
                 }
             }
 
@@ -91,7 +93,7 @@ class AuthViewModel @Inject constructor(
                     _uiState.value = UiState(data  = result.data.toString())
                 }
                 is Resource.Error -> {
-                    _uiState.value = UiState(error = result.messsage.toString())
+                    _uiState.value = UiState(errorResourceId = getUiErrorResourceId(result.domainError as DomainError))
                 }
             }
         }.launchIn(viewModelScope)
