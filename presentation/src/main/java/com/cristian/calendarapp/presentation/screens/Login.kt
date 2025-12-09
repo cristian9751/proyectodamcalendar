@@ -72,7 +72,9 @@ fun LoginScreen(navController: NavController) {
                 subtitle = stringResource(R.string.login_subtitle),
                 submitButtonLabel = stringResource(R.string.login),
                 footer = {
-                    Row {
+                    Row(
+                        horizontalArrangement = Arrangement.spacedBy(2.dp)
+                    ) {
                         Text(
                             text = stringResource(R.string.noaccount_question),
                             fontSize = 14.sp,
@@ -88,7 +90,7 @@ fun LoginScreen(navController: NavController) {
                             text = stringResource(R.string.signuphere_link),
                             fontSize = 14.sp,
                             fontWeight = FontWeight.SemiBold,
-                            color = MaterialTheme.colorScheme.primary
+                            color = MaterialTheme.colorScheme.secondary
                         )
                     }
                 },

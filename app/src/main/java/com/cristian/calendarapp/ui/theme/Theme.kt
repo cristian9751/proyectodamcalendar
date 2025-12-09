@@ -1,6 +1,7 @@
 package com.cristian.calendarapp.ui.theme
 
 import android.app.Activity
+import android.hardware.lights.Light
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
@@ -12,15 +13,25 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 
 private val DarkColorScheme = darkColorScheme(
-    primary = Purple80,
-    secondary = PurpleGrey80,
-    tertiary = Pink80
+    primary = PrimaryBlue,
+    secondary = PrimaryBlueLight,
+    background = DarkBackground,
+    surface = CardBackgroundDark,
+    onPrimary = TextLight,
+    onBackground = TextLight,
+    onSurface = TextLight,
+    onSurfaceVariant = TextSecondaryDark
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = Purple40,
-    secondary = PurpleGrey40,
-    tertiary = Pink40
+    primary = PrimaryBlue,
+    secondary = PrimaryBlue,
+    background = LightBackground,
+    surface = CardBackgroundLight,
+    onPrimary = TextLight,
+    onBackground = TextDark,
+    onSurface = TextDark,
+    onSurfaceVariant = TextSecondaryDark
 
     /* Other default colors to override
     background = Color(0xFFFFFBFE),

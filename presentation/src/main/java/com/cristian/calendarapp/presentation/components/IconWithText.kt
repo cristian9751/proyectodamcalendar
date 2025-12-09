@@ -3,6 +3,7 @@ package com.cristian.calendarapp.presentation.components
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -34,6 +35,6 @@ fun IconWithText() {
     Text(
         text = stringResource(R.string.slogan),
         fontSize = 14.sp,
-        color = Color.Gray
+        color = MaterialTheme.colorScheme.onSurfaceVariant
     )
 }
