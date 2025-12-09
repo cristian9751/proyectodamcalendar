@@ -12,6 +12,9 @@ import io.github.jan.supabase.postgrest.Postgrest
 import io.github.jan.supabase.postgrest.rpc
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import kotlinx.serialization.json.JsonObjectBuilder
+import kotlinx.serialization.json.buildJsonObject
+import kotlinx.serialization.json.put
 import javax.inject.Inject
 
 
@@ -45,21 +48,12 @@ class AuthenticationRepositoryImpl @Inject constructor(
             val supabaseUser = auth.signUpWith(provider = Email) {
                 this.email = user.email
                 this.password = user.password
+                this.data = buildJsonObject {
+                    put("first_name", user.firstname)
+                    put("last_name", user.lastname)
+                    put("role", user.role.name.lowercase())
+                }
             }!!
-
-
-            withContext(Dispatchers.IO) {
-               postgrest.rpc(
-                   function = "create_user",
-                   parameters = mapOf(
-                       "p_user_id" to supabaseUser.id,
-                       "p_first_name" to user.firstname,
-                       "p_last_name" to user.lastname,
-                       "p_role" to user.role.toString().lowercase()
-                   )
-               )
-            }
-
 
 
             return Result.success(supabaseUser.id)
