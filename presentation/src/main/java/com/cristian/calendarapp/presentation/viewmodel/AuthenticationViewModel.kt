@@ -24,8 +24,8 @@ class AuthViewModel @Inject constructor(
 ) : ViewModel() {
 
 
-    private val _uiState = MutableLiveData<UiState<String>>()
-    val uiState : LiveData<UiState<String>> = _uiState
+    private val _uiState = MutableLiveData<UiState>()
+    val uiState : LiveData<UiState> = _uiState
     private val _firstname = MutableLiveData<String>()
     val firstname : LiveData<String> = _firstname
 
@@ -60,13 +60,13 @@ class AuthViewModel @Inject constructor(
         signInUseCase.invoke(_email.value!!, _password.value!!).onEach { result ->
             when(result) {
                 is Resource.Loading -> {
-                    _uiState.value = UiState(isLoading = true)
+                    _uiState.value = UiState.Loading
                 }
                 is Resource.Success -> {
-                    _uiState.value = UiState(data = result.data.toString())
+                    _uiState.value = UiState.Success(data = result.data.toString())
                 }
                 is Resource.Error -> {
-                    _uiState.value = UiState(errorResourceId = getUiErrorResourceId(result.domainError as DomainError))
+                    _uiState.value = UiState.Error(errorResourceId = getUiErrorResourceId(result.domainError as DomainError))
                 }
             }
 
@@ -87,13 +87,13 @@ class AuthViewModel @Inject constructor(
         signUpUseCase.invoke(user).onEach { result ->
             when(result) {
                 is Resource.Loading -> {
-                    _uiState.value = UiState(isLoading = true)
+                    _uiState.value = UiState.Loading
                 }
                 is Resource.Success -> {
-                    _uiState.value = UiState(data  = result.data.toString())
+                    _uiState.value = UiState.Success(data  = result.data.toString())
                 }
                 is Resource.Error -> {
-                    _uiState.value = UiState(errorResourceId = getUiErrorResourceId(result.domainError as DomainError))
+                    _uiState.value = UiState.Error(errorResourceId = getUiErrorResourceId(result.domainError as DomainError))
                 }
             }
         }.launchIn(viewModelScope)

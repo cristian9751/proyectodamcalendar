@@ -60,6 +60,9 @@ dependencies {
     implementation(libs.androidx.compose.navigation)
     kapt(libs.dagger.kapt)
 
+    //Dependencias de livedata
+    implementation(libs.androidx.compose.runtime.livedata)
+
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
@@ -70,6 +73,7 @@ dependencies {
     implementation(libs.androidx.compose.ui)
     implementation(libs.androidx.compose.ui.graphics)
     implementation(libs.androidx.compose.material3)
+    implementation(libs.hilt.compose.navigation)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

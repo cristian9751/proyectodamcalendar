@@ -8,11 +8,13 @@ import io.github.jan.supabase.auth.exception.AuthErrorCode
 import io.github.jan.supabase.auth.exception.AuthRestException
 import io.github.jan.supabase.auth.providers.Google
 import io.github.jan.supabase.auth.providers.builtin.Email
+import io.github.jan.supabase.auth.status.SessionStatus
 import io.github.jan.supabase.postgrest.Postgrest
-import io.github.jan.supabase.postgrest.rpc
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
-import kotlinx.serialization.json.JsonObjectBuilder
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.map
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.put
 import javax.inject.Inject
@@ -76,14 +78,44 @@ class AuthenticationRepositoryImpl @Inject constructor(
     }
 
 
-        override suspend fun signInWithGoogle(): Result<Boolean> {
+        override suspend fun signInWithGoogle(): Result<Unit> {
 
         try {
             auth.signInWith(Google)
-            return Result.success(true)
+            return Result.success(Unit)
         } catch(e : Exception) {
             return Result.failure(DomainError.InvalidCredential())
         }
+    }
+
+     override suspend fun findAuthenticatedUserId() : Result<String> {
+        val sessionStatus = auth.sessionStatus
+            .filter { sessionStatus -> sessionStatus !is SessionStatus.Initializing }
+            .map { sessionStatus ->
+                when(sessionStatus) {
+                    is SessionStatus.Authenticated -> {
+                        Result.success(sessionStatus.session.user?.id ?: "")
+                    }
+
+                    is SessionStatus.NotAuthenticated -> {
+                        Result.failure(exception = DomainError.NotAuthenticated())
+                    }
+
+                    is SessionStatus.RefreshFailure -> {
+                        Result.failure(exception = DomainError.NotAuthenticated())
+                    }
+
+                    else -> {
+                        Result.failure(exception = DomainError.Unexpected())
+                    }
+                }
+            }.flowOn(Dispatchers.IO)
+
+         return try {
+             Result.success(sessionStatus.first().toString())
+         } catch(e : Exception) {
+             Result.failure(exception = DomainError.Unexpected())
+         }
     }
 
 }

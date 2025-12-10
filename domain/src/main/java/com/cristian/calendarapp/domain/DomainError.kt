@@ -9,5 +9,7 @@ sealed class DomainError(private val errorMessage : String) : Exception(errorMes
     sealed class InvalidData(val name : String) : DomainError(errorMessage = "$name is invalid") {
         class InvalidEmail() : InvalidData("Email")
     }
+
+    class NotAuthenticated() : DomainError(errorMessage = "User not authenticated")
     class Unexpected() : DomainError(errorMessage = "Unexpected error")
 }

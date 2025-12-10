@@ -29,7 +29,6 @@ import com.cristian.calendarapp.presentation.components.IconWithText
 import com.cristian.calendarapp.presentation.viewmodel.AuthViewModel
 import com.cristian.calendarapp.presentation.R
 import com.cristian.calendarapp.presentation.Routes
-import com.cristian.calendarapp.presentation.IUiState
 import com.cristian.calendarapp.presentation.UiState
 import com.cristian.calendarapp.presentation.components.EmailInputField
 import com.cristian.calendarapp.presentation.components.ErrorText
@@ -48,7 +47,7 @@ fun SignUpScreen(navController: NavController) {
     val password by authViewModel.password.observeAsState(initial = "")
     val firstname by authViewModel.firstname.observeAsState(initial = "")
     val lastname by authViewModel.lastname.observeAsState(initial = "")
-    val uiState by authViewModel.uiState.observeAsState(initial = UiState())
+    val uiState by authViewModel.uiState.observeAsState(initial = UiState.Idle)
 
     val isSubmitButtonVisible by remember {
         derivedStateOf {

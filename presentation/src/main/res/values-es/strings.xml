@@ -27,4 +27,5 @@
     <string name="unexpected_error">Ha ocurrido un error</string>
     <string name="invalid_credentials_error">El email o la contraseña no son correctos</string>
     <string name="email_exists">El email ya se encuentra en uso</string>
+    <string name="not_authenticated_error">Para continuar, debes iniciar sesion</string>
 </resources>

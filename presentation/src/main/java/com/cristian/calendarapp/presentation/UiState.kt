@@ -1,21 +1,11 @@
 package com.cristian.calendarapp.presentation
+sealed interface UiState {
 
+    data object Loading : UiState
 
-interface IUiState {
-    val isLoading : Boolean
-    val errorResourceId : Int
+    data class Error(val errorResourceId: Int) : UiState
 
-    fun isError() : Boolean
+    data class Success<T>(val data: T) : UiState
 
-}
-data class UiState<T> (
-    override val isLoading : Boolean = false,
-    override val errorResourceId : Int = -100,
-    val data : T? = null
-) : IUiState{
-
-    override fun isError() : Boolean {
-        return errorResourceId != -100
-    }
-
+    data object Idle : UiState
 }

@@ -1,31 +1,50 @@
 package com.cristian.calendarapp.ui
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
 import com.cristian.calendarapp.presentation.Routes
+import com.cristian.calendarapp.presentation.UiState
 import com.cristian.calendarapp.presentation.screens.LoginScreen
 import com.cristian.calendarapp.presentation.screens.SignUpScreen
+import com.cristian.calendarapp.presentation.viewmodel.SessionViewModel
 
 @Composable
 fun Navigation() {
     val navController = rememberNavController()
-    NavHost(navController, startDestination = Routes.LoginScreen.route) {
-        composable(route = Routes.LoginScreen.route) {
-            LoginScreen(navController)
+    val sessionViewModel : SessionViewModel = hiltViewModel()
+    val sessionState by  sessionViewModel.sessionState.observeAsState(initial = UiState.Loading)
+    NavHost(
+        navController,
+        startDestination = if(sessionState is UiState.Success<*> )
+                           Routes.ProfileNav.route
+                           else Routes.AuthNav.route) {
+
+        navigation(startDestination = Routes.LoginScreen.route, route = Routes.AuthNav.route) {
+            composable(route = Routes.LoginScreen.route) {
+                LoginScreen(navController)
+            }
+
+            composable(route = Routes.SignUpScreen.route) {
+                SignUpScreen(navController)
+            }
         }
 
-        composable(route = Routes.SignUpScreen.route) {
-            SignUpScreen(navController)
+        navigation(startDestination =  Routes.ProfileScreen.route, route = Routes.ProfileNav.route) {
+            composable(route = Routes.ProfileScreen.route) {
+                //Profile screen
+            }
+
+            composable(route = Routes.CalendarScreen.route) {
+                //Calendar screen
+            }
         }
 
-        composable(route = Routes.ProfileScreen.route) {
-            //Profile screen
-        }
 
-        composable(route = Routes.CalendarScreen.route) {
-            //Calendar screen
-        }
     }
 }

@@ -1,5 +1,6 @@
 package com.cristian.calendarapp.domain.usecase
 
+import com.cristian.calendarapp.domain.DomainError
 import com.cristian.calendarapp.domain.Resource
 import com.cristian.calendarapp.domain.repository.AuthenticationRepository
 import kotlinx.coroutines.Dispatchers
@@ -15,7 +16,9 @@ class SignInUseCase @Inject constructor(
         emit(Resource.Loading())
         val result = repository.signIn(email, password)
         if(result.isSuccess)  emit(Resource.Success(data = result.getOrNull()))
-        emit(Resource.Error(error = result.exceptionOrNull() as Exception))
+        if(result.isFailure)  {
+            val error = result.exceptionOrNull() ?: DomainError.Unexpected()
+            emit(Resource.Error(error as Exception))
+        }
     }.flowOn(Dispatchers.IO)
-
 }

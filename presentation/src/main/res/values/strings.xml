@@ -27,4 +27,5 @@
     <string name="unexpected_error">There was an error</string>
     <string name="invalid_credentials_error">Email or password are not correct</string>
     <string name="email_exists">Email already being used</string>
+    <string name="not_authenticated_error">You need to login first</string>
 </resources>

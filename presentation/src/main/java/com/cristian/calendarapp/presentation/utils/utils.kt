@@ -20,6 +20,10 @@ fun getUiErrorResourceId(error : DomainError) : Int {
         is DomainError.InvalidCredential -> {
             R.string.invalid_credentials_error
         }
+
+        is DomainError.NotAuthenticated -> {
+            R.string.not_authenticated_error
+        }
     }
 
 }

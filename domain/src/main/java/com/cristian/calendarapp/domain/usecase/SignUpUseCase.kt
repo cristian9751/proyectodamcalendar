@@ -1,5 +1,6 @@
 package com.cristian.calendarapp.domain.usecase
 
+import com.cristian.calendarapp.domain.DomainError
 import com.cristian.calendarapp.domain.Resource
 import com.cristian.calendarapp.domain.entity.User
 import com.cristian.calendarapp.domain.repository.AuthenticationRepository
@@ -16,7 +17,10 @@ class SignUpUseCase @Inject constructor(
         emit(Resource.Loading())
         val result = repository.signUp(user)
         if(result.isSuccess) emit(Resource.Success(data = result.getOrNull()))
-        emit(Resource.Error(error = result.exceptionOrNull() as Exception))
+        if(result.isFailure)  {
+            val error = result.exceptionOrNull() ?: DomainError.Unexpected()
+            emit(Resource.Error(error as Exception))
+        }
     }.flowOn(
         Dispatchers.IO
     )

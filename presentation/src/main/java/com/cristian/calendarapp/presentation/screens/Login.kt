@@ -1,5 +1,6 @@
 package com.cristian.calendarapp.presentation.screens
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -11,6 +12,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
@@ -40,7 +42,7 @@ fun LoginScreen(navController: NavController) {
     val authViewModel : AuthViewModel = hiltViewModel()
     val email by  authViewModel.email.observeAsState(initial = "")
     val password by authViewModel.password.observeAsState(initial = "")
-    val uiState by authViewModel.uiState.observeAsState(initial = UiState())
+    val uiState by authViewModel.uiState.observeAsState(initial = UiState.Idle)
     var valid by remember { mutableStateOf(false) }
     val submitButtonIsVisible by remember {
         derivedStateOf {
@@ -65,6 +67,11 @@ fun LoginScreen(navController: NavController) {
         ) {
             IconWithText()
             ErrorText(uiState)
+            LaunchedEffect(key1 = uiState) {
+                if(uiState is UiState.Success<*>) {
+                    Log.d("AUTHENTICATION", "Se ha inciado sesion correctamente")
+                }
+            }
 
             CardForm(
                 submitButtonIsEnabled = submitButtonIsVisible,
