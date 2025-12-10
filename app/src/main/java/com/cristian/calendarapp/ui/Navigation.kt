@@ -12,6 +12,7 @@ import com.cristian.calendarapp.presentation.Routes
 import com.cristian.calendarapp.presentation.UiState
 import com.cristian.calendarapp.presentation.screens.LoginScreen
 import com.cristian.calendarapp.presentation.screens.SignUpScreen
+import com.cristian.calendarapp.presentation.screens.SplashScreen
 import com.cristian.calendarapp.presentation.viewmodel.SessionViewModel
 
 @Composable
@@ -21,9 +22,12 @@ fun Navigation() {
     val sessionState by  sessionViewModel.sessionState.observeAsState(initial = UiState.Loading)
     NavHost(
         navController,
-        startDestination = if(sessionState is UiState.Success<*> )
-                           Routes.ProfileNav.route
-                           else Routes.AuthNav.route) {
+        startDestination = getStartDestination(sessionState)
+    ) {
+
+        composable(route = Routes.SplashScreen.route) {
+            SplashScreen()
+        }
 
         navigation(startDestination = Routes.LoginScreen.route, route = Routes.AuthNav.route) {
             composable(route = Routes.LoginScreen.route) {
@@ -46,5 +50,21 @@ fun Navigation() {
         }
 
 
+    }
+}
+
+fun getStartDestination(uiState : UiState) : String {
+    return when (uiState) {
+        is UiState.Loading -> {
+            Routes.SplashScreen.route
+        }
+
+        is UiState.Success<*> -> {
+            Routes.ProfileNav.route
+        }
+
+        else -> {
+            Routes.AuthNav.route
+        }
     }
 }
