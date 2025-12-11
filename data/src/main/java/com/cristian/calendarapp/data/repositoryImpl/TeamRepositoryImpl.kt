@@ -7,6 +7,7 @@ import com.cristian.calendarapp.domain.DomainError
 import com.cristian.calendarapp.domain.entity.Team
 import com.cristian.calendarapp.domain.repository.TeamRepository
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
@@ -38,14 +39,14 @@ class TeamRepositoryImpl @Inject constructor(
         return Result.success(true)
     }
 
-    override suspend fun getTeams(): Result<List<Team>> {
+    override suspend fun getTeams(): Result<Flow<List<Team>>> {
         val teams = teamDAO.getTeams().map { teams ->
             teams.map { team ->
                 teamDAO.getTeamWithEvents(team.id)!!.toDomain()
             }
         }.flowOn(Dispatchers.IO)
 
-        return Result.success(teams.first())
+        return Result.success(teams)
 
     }
 

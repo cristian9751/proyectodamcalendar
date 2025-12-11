@@ -4,6 +4,7 @@ import com.cristian.calendarapp.domain.DomainError
 import com.cristian.calendarapp.domain.Resource
 import com.cristian.calendarapp.domain.entity.Team
 import com.cristian.calendarapp.domain.repository.TeamRepository
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
@@ -11,7 +12,7 @@ class GetTeamsUseCase @Inject constructor(
     val repository : TeamRepository
 ) {
 
-    operator fun invoke()  = flow<Resource<List<Team>>>{
+    operator fun invoke()  = flow<Resource<Flow<List<Team>>>>{
         emit(Resource.Loading())
         val result = repository.getTeams()
         if(result.isSuccess) emit(Resource.Success(data = result.getOrNull()))
