@@ -54,6 +54,11 @@ dependencies {
     implementation(libs.dagger.hilt)
     ksp(libs.dagger.compiler)
 
+    //Dependencias de room
+    implementation(libs.room)
+    ksp(libs.room.compiler)
+    implementation(libs.room.ktx)
+
     //Dependencias de supabase y ktor
     implementation(libs.ktor.client.android)
     implementation(platform(libs.supabase.bom))
