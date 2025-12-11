@@ -12,18 +12,24 @@ import kotlinx.coroutines.flow.Flow
 interface TeamDAO {
 
     @Upsert()
-    suspend fun insertTeam(team : TeamEntity)
+    suspend fun insertTeam(team : TeamEntity) : TeamEntity
+
 
     @Delete
     suspend fun deleteTeam(team : TeamEntity)
 
-    @Query("SELECT * FROM teams WHERE  name LIKE :name")
-     fun getTeamByName(name : String) : LiveData<List<TeamEntity>>
+
+    @Query("SELECT * FROM teams WHERE id = :id")
+    fun getTeamById(id : String) : TeamEntity?
+
+    @Query("SELECT * FROM teams WHERE  name = :name")
+     fun getTeamByName(name : String) : TeamEntity?
 
     @Query("SELECT * FROM teams")
-     fun getAllTeams() : LiveData<List<TeamEntity>>
+     fun getTeams() : Flow<List<TeamEntity>>
 
     @Query("SELECT * FROM teams WHERE isSynchronized = :synchronized")
     suspend fun getTeamsBySync(synchronized : Boolean) : List<TeamEntity>
+
 
 }

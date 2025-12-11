@@ -1,5 +1,4 @@
 package com.cristian.calendarapp.data.local.dao
-
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Delete
@@ -25,10 +24,10 @@ interface EventDAO  {
      fun findEventByDate(date: Date) : LiveData<List<EventEntity>>
 
     @Query("SELECT * FROM events")
-     fun getAllEvents() : LiveData<List<EventEntity>>
+     fun getAllEvents() : Flow<List<EventEntity>>
     @Query("SELECT * FROM events WHERE isSynchronized = :synchronized")
     suspend fun getEventsBySync(synchronized : Boolean) : List<EventEntity>
 
     @Query("SELECT * FROM events WHERE teamId = :teamId ")
-     fun getEventsByTeam(teamId : String) : Flow<List<EventEntity>>
+     fun getEventsByTeam(teamId : String) : LiveData<List<EventEntity>>
 }
