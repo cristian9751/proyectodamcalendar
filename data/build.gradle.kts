@@ -4,7 +4,7 @@ import java.util.Properties
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
-    id("kotlin-kapt")
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -52,7 +52,7 @@ dependencies {
 
     //Dependencias de dagger hilt
     implementation(libs.dagger.hilt)
-    kapt(libs.dagger.kapt)
+    ksp(libs.dagger.compiler)
 
     //Dependencias de supabase y ktor
     implementation(libs.ktor.client.android)

@@ -4,8 +4,8 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
-    id("kotlin-kapt")
     alias(libs.plugins.hilt)
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -58,7 +58,7 @@ dependencies {
     //Dependencias de dagger hilt
     implementation(libs.dagger.hilt)
     implementation(libs.androidx.compose.navigation)
-    kapt(libs.dagger.kapt)
+    ksp(libs.dagger.compiler)
 
     //Dependencias de livedata
     implementation(libs.androidx.compose.runtime.livedata)

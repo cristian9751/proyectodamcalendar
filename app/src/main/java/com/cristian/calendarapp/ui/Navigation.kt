@@ -33,11 +33,11 @@ fun Navigation() {
         }
 
         navigation(startDestination = Routes.LoginScreen.route, route = Routes.AuthNav.route) {
-            composable(route = Routes.LoginScreen.route) { nbse ->
+            composable(route = Routes.LoginScreen.route) {
                 LoginScreen(navController)
             }
 
-            composable(route = Routes.SignUpScreen.route) { nbse ->
+            composable(route = Routes.SignUpScreen.route) {
                 SignUpScreen(navController)
             }
         }
