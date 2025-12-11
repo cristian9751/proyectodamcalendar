@@ -1,10 +1,49 @@
 package com.cristian.calendarapp.presentation.screens
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-
+import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.navigation.NavController
+import com.cristian.calendarapp.presentation.Routes
+import com.cristian.calendarapp.presentation.UiState
+import com.cristian.calendarapp.presentation.components.CalendarCard
+import com.cristian.calendarapp.presentation.components.SearchAndNewCalendar
+import com.cristian.calendarapp.presentation.viewmodel.TeamsViewModel
 
 
 @Composable
-fun HomeScreen() {
+fun HomeScreen(navController : NavController) {
+    val teamsViewModel : TeamsViewModel = hiltViewModel()
+    val uiState = teamsViewModel.uiState.observeAsState(initial = UiState.Idle)
+    val teams  = teamsViewModel.teams.observeAsState(initial = emptyList())
+    val search = teamsViewModel.search.observeAsState(initial = "")
+    SearchAndNewCalendar(
+        onSearchValueChange = {},
+        onNewCalendarClicked = {
+            navController.navigate(Routes.NewTeamScreen.route)
+        },
+        searchValue = search.value
+    )
+    if(teams.value.isEmpty()) {
+        Text(text = "No hay calendarios")
+    } else {
+        LazyColumn(
+            modifier = Modifier.fillMaxSize()
+        ) {
+            items(teams.value) {
+                Box(modifier = Modifier.padding(horizontal = 16.dp)) {
+                    CalendarCard(calendar = it, onCardClick = {})
+                }
+            }
+        }
+    }
 
 }
 

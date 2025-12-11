@@ -21,6 +21,10 @@ class SessionViewModel @Inject constructor(
     private val _sessionState = MutableLiveData<UiState>()
     val sessionState : LiveData<UiState> = _sessionState
 
+    private val _currentUserId = MutableLiveData<String>()
+
+    val currentUserId : LiveData<String> = _currentUserId
+
     init {
         getSessionUseCase.invoke()
             .onEach { result ->
@@ -29,7 +33,7 @@ class SessionViewModel @Inject constructor(
                         _sessionState.value = UiState.Loading
                     }
                     is Resource.Success -> {
-                        _sessionState.value = UiState.Success(data = result.data.toString())
+                        _currentUserId.value = result.data.toString()
                     }
                     is Resource.Error -> {
                         _sessionState.value = UiState.Error(errorResourceId = getUiErrorResourceId(result.domainError as DomainError))
