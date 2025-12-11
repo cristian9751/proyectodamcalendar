@@ -5,7 +5,7 @@ sealed interface UiState {
 
     data class Error(val errorResourceId: Int) : UiState
 
-    data class Success<T>(val data: T) : UiState
+    data object Success : UiState
 
     data object Idle : UiState
 }

@@ -5,6 +5,7 @@ sealed class DomainError(private val errorMessage : String) : Exception(errorMes
     class InvalidCredential : DomainError(errorMessage = "Invalid credentials")
     sealed class DuplicatedData(private val name: String ) : DomainError(errorMessage =  "$name already exists") {
         class EmailAlreadyExists() : DuplicatedData("Email")
+        class TeamAlreadyExists() : DuplicatedData("Team")
     }
     sealed class InvalidData(val name : String) : DomainError(errorMessage = "$name is invalid") {
         class InvalidEmail() : InvalidData("Email")
@@ -12,4 +13,9 @@ sealed class DomainError(private val errorMessage : String) : Exception(errorMes
 
     class NotAuthenticated() : DomainError(errorMessage = "User not authenticated")
     class Unexpected() : DomainError(errorMessage = "Unexpected error")
+
+    sealed class NotFound(val name : String) : DomainError(errorMessage = "$name not found") {
+        class TeamNotFound() : NotFound("Team")
+
+    }
 }

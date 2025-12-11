@@ -8,6 +8,11 @@ sealed class Routes(val route : String) {
     object MainNav : Routes("Main")
 
 
+    object TeamsScreen : Routes("Teams")
+
+    object NewTeamScreen : Routes("NewTeam")
+
+
     object HomeScreen : Routes("Home")
 
     object AuthNav : Routes("Auth")

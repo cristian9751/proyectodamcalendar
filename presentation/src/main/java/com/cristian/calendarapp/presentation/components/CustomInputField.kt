@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.dp
 fun CustomInputField(
     visualTransformation: VisualTransformation = VisualTransformation.None,
     value : String,
-    regex : Regex,
+    regex : Regex? = null,
     label : String,
     placeholder : String,
     showValidationErrorMessage : Boolean  = true,
@@ -32,7 +32,7 @@ fun CustomInputField(
         visualTransformation = visualTransformation,
         value = value,
         onValueChange = { newValue : String ->
-            isValid = if(newValue.isNotEmpty()) newValue.matches(regex) else true
+            isValid = if(newValue.isNotEmpty() && regex !== null) newValue.matches(regex) else true
             onValueChangeCallback(newValue, isValid)
         },
         modifier = Modifier.fillMaxWidth(),

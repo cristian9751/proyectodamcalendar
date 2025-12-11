@@ -63,7 +63,7 @@ class AuthViewModel @Inject constructor(
                     _uiState.value = UiState.Loading
                 }
                 is Resource.Success -> {
-                    _uiState.value = UiState.Success(data = result.data.toString())
+                    _uiState.value = UiState.Success
                 }
                 is Resource.Error -> {
                     _uiState.value = UiState.Error(errorResourceId = getUiErrorResourceId(result.domainError as DomainError))
@@ -90,7 +90,7 @@ class AuthViewModel @Inject constructor(
                     _uiState.value = UiState.Loading
                 }
                 is Resource.Success -> {
-                    _uiState.value = UiState.Success(data  = result.data.toString())
+                    _uiState.value = UiState.Success
                 }
                 is Resource.Error -> {
                     _uiState.value = UiState.Error(errorResourceId = getUiErrorResourceId(result.domainError as DomainError))
