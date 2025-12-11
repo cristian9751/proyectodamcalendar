@@ -17,6 +17,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import jakarta.inject.Inject
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import java.util.UUID
 
 @HiltViewModel
 class TeamsViewModel @Inject constructor(
@@ -58,6 +59,8 @@ class TeamsViewModel @Inject constructor(
                             team.toModel()
                         }
 
+                        _uiState.value = UiState.Success
+
 
 
                     }
@@ -69,7 +72,7 @@ class TeamsViewModel @Inject constructor(
 
 
     fun addTeam(name : String, description : String) {
-        val team = TeamModel(name = name, description = description)
+        val team = TeamModel(name = name, description = description, id = UUID.randomUUID().toString())
         val currentTeams  = _teams.value.orEmpty().toMutableList()
         currentTeams.add(team)
         _teams.value = currentTeams
