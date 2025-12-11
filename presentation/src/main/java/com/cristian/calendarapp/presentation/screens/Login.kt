@@ -36,10 +36,11 @@ import com.cristian.calendarapp.presentation.Routes
 import com.cristian.calendarapp.presentation.components.EmailInputField
 import com.cristian.calendarapp.presentation.components.ErrorText
 import com.cristian.calendarapp.presentation.components.PasswordInputField
+import com.cristian.calendarapp.presentation.utils.sharedViewModelOnSubGraph
 
 @Composable
 fun LoginScreen(navController: NavController) {
-    val authViewModel : AuthViewModel = hiltViewModel()
+    val authViewModel : AuthViewModel = navController.sharedViewModelOnSubGraph<AuthViewModel>()
     val email by  authViewModel.email.observeAsState(initial = "")
     val password by authViewModel.password.observeAsState(initial = "")
     val uiState by authViewModel.uiState.observeAsState(initial = UiState.Idle)

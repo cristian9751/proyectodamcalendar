@@ -3,7 +3,10 @@ package com.cristian.calendarapp.ui
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.remember
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.lifecycle.ViewModel
+import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
@@ -30,22 +33,26 @@ fun Navigation() {
         }
 
         navigation(startDestination = Routes.LoginScreen.route, route = Routes.AuthNav.route) {
-            composable(route = Routes.LoginScreen.route) {
+            composable(route = Routes.LoginScreen.route) { nbse ->
                 LoginScreen(navController)
             }
 
-            composable(route = Routes.SignUpScreen.route) {
+            composable(route = Routes.SignUpScreen.route) { nbse ->
                 SignUpScreen(navController)
             }
         }
 
-        navigation(startDestination =  Routes.ProfileScreen.route, route = Routes.ProfileNav.route) {
+        navigation(startDestination =  Routes.ProfileScreen.route, route = Routes.MainNav.route) {
             composable(route = Routes.ProfileScreen.route) {
                 //Profile screen
             }
 
             composable(route = Routes.CalendarScreen.route) {
                 //Calendar screen
+            }
+
+            composable(route = Routes.HomeScreen.route) {
+                //Home screen
             }
         }
 
@@ -60,7 +67,7 @@ fun getStartDestination(uiState : UiState) : String {
         }
 
         is UiState.Success<*> -> {
-            Routes.ProfileNav.route
+            Routes.MainNav.route
         }
 
         else -> {

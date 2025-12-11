@@ -34,6 +34,7 @@ import com.cristian.calendarapp.presentation.components.EmailInputField
 import com.cristian.calendarapp.presentation.components.ErrorText
 import com.cristian.calendarapp.presentation.components.NameField
 import com.cristian.calendarapp.presentation.components.PasswordInputField
+import com.cristian.calendarapp.presentation.utils.sharedViewModelOnSubGraph
 
 @Composable
 fun SignUpScreen(navController: NavController) {
@@ -41,7 +42,7 @@ fun SignUpScreen(navController: NavController) {
     var repeatPassword by remember { mutableStateOf("") }
     var valid by remember { mutableStateOf(false) }
 
-    val authViewModel : AuthViewModel = hiltViewModel()
+    val authViewModel : AuthViewModel = navController.sharedViewModelOnSubGraph<AuthViewModel>()
 
     val email by  authViewModel.email.observeAsState(initial = "")
     val password by authViewModel.password.observeAsState(initial = "")

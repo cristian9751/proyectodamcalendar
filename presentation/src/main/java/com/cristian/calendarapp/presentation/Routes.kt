@@ -5,9 +5,12 @@ sealed class Routes(val route : String) {
     object CalendarScreen : Routes("Calendar")
     object ProfileScreen : Routes("Profile")
 
-    object ProfileNav : Routes("profileNav")
+    object MainNav : Routes("Main")
 
-    object AuthNav : Routes("auth")
+
+    object HomeScreen : Routes("Home")
+
+    object AuthNav : Routes("Auth")
 
     object SplashScreen : Routes("splash")
 }
