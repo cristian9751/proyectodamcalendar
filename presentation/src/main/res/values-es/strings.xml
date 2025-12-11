@@ -28,4 +28,8 @@
     <string name="invalid_credentials_error">El email o la contraseña no son correctos</string>
     <string name="email_exists">El email ya se encuentra en uso</string>
     <string name="not_authenticated_error">Para continuar, debes iniciar sesion</string>
+    <string name="calendar_not_found">El calendario especificado no existe</string>
+    <string name="calendar_already_exists">El calendario ya existe</string>
+    <string name="search_label">Buscar calendarios o eventos...</string>
+    <string name="new_calendar">Nuevo Calendario</string>
 </resources>

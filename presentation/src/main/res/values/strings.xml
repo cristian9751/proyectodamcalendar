@@ -28,4 +28,8 @@
     <string name="invalid_credentials_error">Email or password are not correct</string>
     <string name="email_exists">Email already being used</string>
     <string name="not_authenticated_error">You need to login first</string>
+    <string name="calendar_not_found">Calendar not  found</string>
+    <string name="calendar_already_exists">That calendar already exists</string>
+    <string name="search_label">Search calendars and events..</string>
+    <string name="new_calendar">New Calendar</string>
 </resources>

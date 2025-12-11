@@ -13,6 +13,7 @@ import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
 import com.cristian.calendarapp.presentation.Routes
 import com.cristian.calendarapp.presentation.UiState
+import com.cristian.calendarapp.presentation.screens.HomeScreen
 import com.cristian.calendarapp.presentation.screens.LoginScreen
 import com.cristian.calendarapp.presentation.screens.SignUpScreen
 import com.cristian.calendarapp.presentation.screens.SplashScreen
@@ -42,7 +43,7 @@ fun Navigation() {
             }
         }
 
-        navigation(startDestination =  Routes.ProfileScreen.route, route = Routes.MainNav.route) {
+        navigation(startDestination =  Routes.HomeScreen.route, route = Routes.MainNav.route) {
             composable(route = Routes.ProfileScreen.route) {
                 //Profile screen
             }
@@ -52,7 +53,7 @@ fun Navigation() {
             }
 
             composable(route = Routes.HomeScreen.route) {
-                //Home screen
+                HomeScreen()
             }
         }
 

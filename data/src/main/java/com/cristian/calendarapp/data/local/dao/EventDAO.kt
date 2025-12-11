@@ -18,16 +18,13 @@ interface EventDAO  {
     suspend fun deleteEvent(event : EventEntity)
 
     @Query("SELECT * FROM events WHERE title LIKE :name")
-     fun findEventByName(name : String) : LiveData<List<EventEntity>>
+     fun findEventByName(name : String) : Flow<List<EventEntity>>
 
     @Query("SELECT * FROM events WHERE date  = :date")
-     fun findEventByDate(date: Date) : LiveData<List<EventEntity>>
+     fun findEventByDate(date: Date) : Flow<List<EventEntity>>
 
     @Query("SELECT * FROM events")
      fun getAllEvents() : Flow<List<EventEntity>>
     @Query("SELECT * FROM events WHERE isSynchronized = :synchronized")
     suspend fun getEventsBySync(synchronized : Boolean) : List<EventEntity>
-
-    @Query("SELECT * FROM events WHERE teamId = :teamId ")
-     fun getEventsByTeam(teamId : String) : LiveData<List<EventEntity>>
 }

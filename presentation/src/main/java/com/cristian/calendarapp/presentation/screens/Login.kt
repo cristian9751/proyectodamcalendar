@@ -70,7 +70,7 @@ fun LoginScreen(navController: NavController) {
             ErrorText(uiState)
             LaunchedEffect(key1 = uiState) {
                 if(uiState is UiState.Success<*>) {
-                    Log.d("AUTHENTICATION", "Se ha inciado sesion correctamente")
+                    navController.navigate(Routes.HomeScreen.route)
                 }
             }
 

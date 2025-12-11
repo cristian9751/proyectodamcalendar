@@ -1,9 +1,8 @@
 package com.cristian.calendarapp.data.repositoryImpl
 
-import androidx.lifecycle.map
 import com.cristian.calendarapp.data.local.dao.TeamDAO
 import com.cristian.calendarapp.data.local.entities.toDomain
-import com.cristian.calendarapp.data.local.entities.toEntity
+import com.cristian.calendarapp.data.local.entities.toLocalEntity
 import com.cristian.calendarapp.domain.DomainError
 import com.cristian.calendarapp.domain.entity.Team
 import com.cristian.calendarapp.domain.repository.TeamRepository
@@ -17,8 +16,13 @@ class TeamRepositoryImpl @Inject constructor(
     val teamDAO: TeamDAO,
 ) : TeamRepository {
     override suspend fun save(team: Team): Result<Team> {
-        val savedTeam = teamDAO.insertTeam(team.toEntity()).toDomain()
-        return Result.success(savedTeam)
+        try {
+            teamDAO.insertTeamWithEvents(team.toLocalEntity())
+            return Result.success(team)
+        } catch (e : Exception) {
+            return Result.failure(exception = DomainError.Unexpected())
+        }
+
 
 
     }
@@ -28,7 +32,7 @@ class TeamRepositoryImpl @Inject constructor(
     override suspend fun delete(teamId: String): Result<Boolean> {
         val teamEntity = teamDAO.getTeamById(teamId)
         if(teamEntity === null) {
-            return Result.failure(exception = DomainError.NotFound())
+            return Result.failure(exception = DomainError.NotFound.TeamNotFound())
         }
         teamDAO.deleteTeam(teamEntity)
         return Result.success(true)
@@ -37,7 +41,7 @@ class TeamRepositoryImpl @Inject constructor(
     override suspend fun getTeams(): Result<List<Team>> {
         val teams = teamDAO.getTeams().map { teams ->
             teams.map { team ->
-                team.toDomain()
+                teamDAO.getTeamWithEvents(team.id)!!.toDomain()
             }
         }.flowOn(Dispatchers.IO)
 
@@ -52,7 +56,7 @@ class TeamRepositoryImpl @Inject constructor(
 
         }
 
-        return Result.failure(exception = DomainError.NotFound())
+        return Result.failure(exception = DomainError.NotFound.TeamNotFound())
 
     }
 
@@ -63,7 +67,17 @@ class TeamRepositoryImpl @Inject constructor(
 
         }
 
-       return Result.failure(exception = DomainError.NotFound())
+       return Result.failure(exception = DomainError.NotFound.TeamNotFound())
+    }
+
+
+    override suspend fun getTeamWithEvents(teamId : String) : Result<Team> {
+        val team = teamDAO.getTeamWithEvents(teamId)
+        if(team !== null) {
+            return Result.success(team.toDomain())
+        }
+        return Result.failure(exception = DomainError.NotFound.TeamNotFound())
+
     }
 
 

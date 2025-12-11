@@ -14,5 +14,8 @@ sealed class DomainError(private val errorMessage : String) : Exception(errorMes
     class NotAuthenticated() : DomainError(errorMessage = "User not authenticated")
     class Unexpected() : DomainError(errorMessage = "Unexpected error")
 
-    class NotFound() : DomainError(errorMessage = "Not found")
+    sealed class NotFound(val name : String) : DomainError(errorMessage = "$name not found") {
+        class TeamNotFound() : NotFound("Team")
+
+    }
 }
