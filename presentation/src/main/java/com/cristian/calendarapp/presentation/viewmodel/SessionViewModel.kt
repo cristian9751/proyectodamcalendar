@@ -18,8 +18,8 @@ import javax.inject.Inject
 class SessionViewModel @Inject constructor(
     private val getSessionUseCase: GetSessionUseCase
 ) : ViewModel() {
-    private val _sessionState = MutableLiveData<UiState>()
-    val sessionState : LiveData<UiState> = _sessionState
+    private val _uiState = MutableLiveData<UiState>()
+    val uiState : LiveData<UiState> = _uiState
 
     private val _currentUserId = MutableLiveData<String>()
 
@@ -30,13 +30,14 @@ class SessionViewModel @Inject constructor(
             .onEach { result ->
                 when(result) {
                     is Resource.Loading -> {
-                        _sessionState.value = UiState.Loading
+                        _uiState.value = UiState.Loading
                     }
                     is Resource.Success -> {
                         _currentUserId.value = result.data.toString()
+                        _uiState.value = UiState.Success
                     }
                     is Resource.Error -> {
-                        _sessionState.value = UiState.Error(errorResourceId = getUiErrorResourceId(result.domainError as DomainError))
+                        _uiState.value = UiState.Error(errorResourceId = getUiErrorResourceId(result.domainError as DomainError))
                     }
                 }
             }

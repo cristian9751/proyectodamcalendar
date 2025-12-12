@@ -2,14 +2,12 @@ package com.cristian.calendarapp.presentation.screens
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -18,7 +16,7 @@ import com.cristian.calendarapp.presentation.components.AppScaffold
 import com.cristian.calendarapp.presentation.components.CustomInputField
 import com.cristian.calendarapp.presentation.utils.sharedViewModelOnSubGraph
 import com.cristian.calendarapp.presentation.viewmodel.TeamsViewModel
-
+import com.cristian.calendarapp.presentation.R
 
 @Composable
 fun NewTeamScreen(navController: NavController) {
@@ -35,7 +33,7 @@ fun NewTeamScreen(navController: NavController) {
 
     AppScaffold(
         uiState = uiState,
-        title = "New Team"
+        title = stringResource(R.string.new_calendar)
     ) { paddingValues ->
         Column(
             modifier = Modifier
@@ -48,8 +46,8 @@ fun NewTeamScreen(navController: NavController) {
                 onValueChangeCallback = { newName, _ ->
                     name = newName
                 },
-                label = "Nombre del Equipo / Calendario",
-                placeholder = "Ej: Equipo de Marketing, Proyecto X"
+                label = stringResource(R.string.calendar_name_label),
+                placeholder = stringResource(R.string.calendar_name_placeholder)
             )
             Spacer(modifier = Modifier.height(16.dp))
 
@@ -58,8 +56,8 @@ fun NewTeamScreen(navController: NavController) {
                 onValueChangeCallback = {  newDescription,  _ ->
                     description = newDescription
                 },
-                label = "Descripción",
-                placeholder = "Propósito, objetivos o miembros principales"
+                label = stringResource(R.string.calendar_description_label),
+                placeholder = stringResource(R.string.calendar_description_placeholder)
             )
             Spacer(modifier = Modifier.height(32.dp))
 
@@ -67,25 +65,25 @@ fun NewTeamScreen(navController: NavController) {
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-                // Botón de Cancelar
+
                 Button(
                     onClick = {
                         navController.navigateUp()
                     },
                     modifier = Modifier.weight(1f),
-                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.background),
+                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
                     contentPadding = PaddingValues(vertical = 12.dp),
                     shape = RoundedCornerShape(12.dp)
                 ) {
-                    Text("Cancelar", color = Color.White, fontWeight = FontWeight.SemiBold)
+                    Text(stringResource(R.string.cancel_text), color = MaterialTheme.colorScheme.onPrimary, fontWeight = FontWeight.SemiBold)
                 }
 
-                // Botón de Guardar
                 Button(
                     onClick = {
                         teamViewModel.addTeam(name, description)
+                        navController.navigateUp()
                     },
-                    enabled = isSaveButtonEnabled, // Control de habilitación
+                    enabled = isSaveButtonEnabled,
                     modifier = Modifier.weight(1f),
                     colors = ButtonDefaults.buttonColors(
                         containerColor = MaterialTheme.colorScheme.primary,
@@ -94,7 +92,7 @@ fun NewTeamScreen(navController: NavController) {
                     contentPadding = PaddingValues(vertical = 12.dp),
                     shape = RoundedCornerShape(12.dp)
                 ) {
-                    Text("Crear Equipo", fontWeight = FontWeight.SemiBold)
+                    Text(stringResource(R.string.create_calendar_text), color = MaterialTheme.colorScheme.onPrimary, fontWeight = FontWeight.SemiBold)
                 }
             }
         }

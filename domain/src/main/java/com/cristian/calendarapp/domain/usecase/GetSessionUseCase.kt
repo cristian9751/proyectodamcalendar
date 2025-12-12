@@ -12,8 +12,10 @@ class GetSessionUseCase @Inject constructor(
     operator fun invoke() = flow<Resource<String>> {
         emit(Resource.Loading())
         val result = repository.findAuthenticatedUserId()
-        if(result.isSuccess) Resource.Success(data = result.getOrDefault(""))
-        val error = result.exceptionOrNull() ?: DomainError.Unexpected()
-        emit(Resource.Error(error as Exception ))
+        if(result.isSuccess)  emit(Resource.Success(data = result.getOrNull()))
+        if(result.isFailure)  {
+            val error = result.exceptionOrNull() ?: DomainError.Unexpected()
+            emit(Resource.Error(error as Exception))
+        }
     }
 }

@@ -32,4 +32,13 @@
     <string name="calendar_already_exists">That calendar already exists</string>
     <string name="search_label">Search calendars and events..</string>
     <string name="new_calendar">New Calendar</string>
+    <string name="events_text">events</string>
+    <string name="no_calendars">There are no calendars available</string>
+    <string name="calendar_name_label">Name of the calendar</string>
+    <string name="calendar_name_placeholder">Example: Marketing Team, Proyect X ...</string>
+    <string name="calendar_description_label">Calendar description</string>
+    <string name="calendar_description_placeholder">Main objectives...</string>
+    <string name="cancel_text">Cancel</string>
+    <string name="create_calendar_text">Create calendar</string>
+    <string name="home_text">Home</string>
 </resources>

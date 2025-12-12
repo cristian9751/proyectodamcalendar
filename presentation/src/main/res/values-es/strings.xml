@@ -32,4 +32,13 @@
     <string name="calendar_already_exists">El calendario ya existe</string>
     <string name="search_label">Buscar calendarios o eventos...</string>
     <string name="new_calendar">Nuevo Calendario</string>
+    <string name="events_text">evento</string>
+    <string name="no_calendars">No hay calendarios</string>
+    <string name="calendar_name_label">Nombre del calendario</string>
+    <string name="calendar_name_placeholder">Ej: Equipo de Marketing, Proyecto X</string>
+    <string name="calendar_description_label">Descripción del calendario</string>
+    <string name="calendar_description_placeholder">Propósito, objetivos o miembros principales</string>
+    <string name="cancel_text">Cancelar</string>
+    <string name="create_calendar_text">Crear calendario</string>
+    <string name="home_text">Inicio</string>
 </resources>

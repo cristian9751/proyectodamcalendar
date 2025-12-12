@@ -21,8 +21,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.cristian.calendarapp.presentation.R
 
 @Composable
 fun SearchAndNewCalendar(searchValue : String, onSearchValueChange: (String) -> Unit, onNewCalendarClicked: () -> Unit) {
@@ -30,7 +32,7 @@ fun SearchAndNewCalendar(searchValue : String, onSearchValueChange: (String) -> 
         OutlinedTextField(
             value = searchValue,
             onValueChange = onSearchValueChange,
-            placeholder = { Text("Buscar calendarios o eventos...", color = Color.Gray) },
+            placeholder = { Text(stringResource(R.string.search_label), color = Color.Gray) },
             leadingIcon = { Icon(Icons.Default.Search, contentDescription = null, tint = Color.Gray) },
             modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(12.dp),
@@ -44,9 +46,9 @@ fun SearchAndNewCalendar(searchValue : String, onSearchValueChange: (String) -> 
             contentPadding = PaddingValues(vertical = 12.dp),
             shape = RoundedCornerShape(12.dp)
         ) {
-            Icon(Icons.Default.Add, contentDescription = "Nuevo Calendario", modifier = Modifier.size(20.dp))
+            Icon(Icons.Default.Add, contentDescription = stringResource(R.string.new_calendar), modifier = Modifier.size(20.dp))
             Spacer(modifier = Modifier.width(8.dp))
-            Text("Nuevo Calendario", fontWeight = FontWeight.SemiBold)
+            Text(stringResource(R.string.new_calendar), fontWeight = FontWeight.SemiBold)
         }
     }
 }

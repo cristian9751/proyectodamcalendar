@@ -9,9 +9,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.cristian.calendarapp.presentation.R
 import com.cristian.calendarapp.presentation.Routes
 import com.cristian.calendarapp.presentation.UiState
 import com.cristian.calendarapp.presentation.components.AppScaffold
@@ -28,7 +30,7 @@ fun HomeScreen(navController : NavController) {
     val search = teamsViewModel.search.observeAsState(initial = "")
     AppScaffold(
         uiState = uiState.value,
-        title = "Home"
+        title = stringResource(R.string.home_text)
     ) { paddingValues ->
         Column(
             modifier = Modifier.padding(paddingValues)
@@ -41,7 +43,7 @@ fun HomeScreen(navController : NavController) {
                 searchValue = search.value
             )
             if(teams.value.isEmpty()) {
-                Text(text = "No hay calendarios")
+                Text(text = stringResource(R.string.no_calendars))
             } else {
                 LazyColumn(
                     modifier = Modifier.fillMaxSize()

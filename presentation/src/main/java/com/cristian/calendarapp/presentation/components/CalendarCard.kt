@@ -23,10 +23,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.cristian.calendarapp.presentation.model.TeamModel
+import com.cristian.calendarapp.presentation.R
 
 @Composable
 fun CalendarCard(calendar : TeamModel, onCardClick : ( ) -> Unit) {
@@ -35,7 +37,8 @@ fun CalendarCard(calendar : TeamModel, onCardClick : ( ) -> Unit) {
             .fillMaxWidth()
             .padding(vertical = 4.dp)
             .clickable { /**TODO*/ },
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.background),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
         shape = RoundedCornerShape(12.dp)
     ) {
         Row(
@@ -52,7 +55,7 @@ fun CalendarCard(calendar : TeamModel, onCardClick : ( ) -> Unit) {
                 Icon(
                     imageVector = Icons.Default.CalendarToday,
                     contentDescription = null,
-                    tint = Color.White,
+                    tint = MaterialTheme.colorScheme.onSurface,
                     modifier = Modifier.size(24.dp)
                 )
             }
@@ -60,12 +63,12 @@ fun CalendarCard(calendar : TeamModel, onCardClick : ( ) -> Unit) {
             Column {
                 Text(
                     text = calendar.name,
-                    color = Color.White,
+                    color = MaterialTheme.colorScheme.onBackground,
                     fontSize = 18.sp,
                     fontWeight = FontWeight.SemiBold
                 )
                 Text(
-                    text = "${calendar.eventCount} eventos",
+                    text = "${calendar.eventCount} ${stringResource(R.string.events_text)}",
                     color = Color.Gray,
                     fontSize = 14.sp
                 )

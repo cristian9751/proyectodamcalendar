@@ -3,10 +3,7 @@ package com.cristian.calendarapp.ui
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.remember
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import androidx.lifecycle.ViewModel
-import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
@@ -24,7 +21,7 @@ import com.cristian.calendarapp.presentation.viewmodel.SessionViewModel
 fun Navigation() {
     val navController = rememberNavController()
     val sessionViewModel : SessionViewModel = hiltViewModel()
-    val sessionState by  sessionViewModel.sessionState.observeAsState(initial = UiState.Loading)
+    val sessionState by  sessionViewModel.uiState.observeAsState(initial = UiState.Loading)
     NavHost(
         navController,
         startDestination = getStartDestination(sessionState)
