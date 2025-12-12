@@ -78,15 +78,15 @@ class AuthenticationRepositoryImpl @Inject constructor(
     }
 
 
-        override suspend fun signInWithGoogle(): Result<Unit> {
+            override suspend fun signInWithGoogle(): Result<Unit> {
 
-        try {
-            auth.signInWith(Google)
-            return Result.success(Unit)
-        } catch(e : Exception) {
-            return Result.failure(DomainError.InvalidCredential())
+            try {
+                auth.signInWith(Google)
+                return Result.success(Unit)
+            } catch(e : Exception) {
+                return Result.failure(DomainError.InvalidCredential())
+            }
         }
-    }
 
      override suspend fun findAuthenticatedUserId() : Result<String> {
         val sessionStatus = auth.sessionStatus
@@ -111,11 +111,7 @@ class AuthenticationRepositoryImpl @Inject constructor(
                 }
             }.flowOn(Dispatchers.IO)
 
-         return try {
-             Result.success(sessionStatus.first().toString())
-         } catch(e : Exception) {
-             Result.failure(exception = DomainError.Unexpected())
-         }
+         return sessionStatus.first()
     }
 
 }
