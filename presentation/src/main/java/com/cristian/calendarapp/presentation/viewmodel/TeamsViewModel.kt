@@ -21,8 +21,9 @@ import java.util.UUID
 
 @HiltViewModel
 class TeamsViewModel @Inject constructor(
-    val getTeamsUseCase: GetTeamsUseCase,
-    val createTeamUseCase: CreateTeamUseCase
+    private val getTeamsUseCase: GetTeamsUseCase,
+    private val createTeamUseCase: CreateTeamUseCase,
+
 ) : ViewModel() {
 
     private val _uiState = MutableLiveData<UiState>()
@@ -30,9 +31,6 @@ class TeamsViewModel @Inject constructor(
 
     private val _teams = MutableLiveData<List<TeamModel>>()
     val teams : LiveData<List<TeamModel>> = _teams
-
-    private val _search = MutableLiveData<String>()
-    val search : LiveData<String> = _search
 
 
 

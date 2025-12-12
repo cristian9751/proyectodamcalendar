@@ -17,12 +17,14 @@ class CreateTeamUseCase @Inject constructor(
         emit(Resource.Loading())
         if(repository.getByName(team.name).isSuccess) {
             emit(Resource.Error(error = DomainError.DuplicatedData.TeamAlreadyExists()))
+        } else {
+            val result = repository.save(team)
+            if(result.isSuccess)  emit(Resource.Success(data = result.getOrNull()))
+            if(result.isFailure)  {
+                val error = result.exceptionOrNull() ?: DomainError.Unexpected()
+                emit(Resource.Error(error as Exception))
+            }
         }
-        val result = repository.save(team)
-        if(result.isSuccess)  emit(Resource.Success(data = result.getOrNull()))
-        if(result.isFailure)  {
-            val error = result.exceptionOrNull() ?: DomainError.Unexpected()
-            emit(Resource.Error(error as Exception))
-        }
+
     }.flowOn(Dispatchers.IO)
 }

@@ -7,7 +7,11 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -27,7 +31,7 @@ fun HomeScreen(navController : NavController) {
     val teamsViewModel : TeamsViewModel = hiltViewModel()
     val uiState = teamsViewModel.uiState.observeAsState(initial = UiState.Idle)
     val teams  = teamsViewModel.teams.observeAsState(initial = emptyList())
-    val search = teamsViewModel.search.observeAsState(initial = "")
+    var search by remember { mutableStateOf("") }
     AppScaffold(
         uiState = uiState.value,
         title = stringResource(R.string.home_text)
@@ -36,11 +40,13 @@ fun HomeScreen(navController : NavController) {
             modifier = Modifier.padding(paddingValues)
         ) {
             SearchAndNewCalendar(
-                onSearchValueChange = {},
+                onSearchValueChange = {
+                    search = it
+                },
                 onNewCalendarClicked = {
                     navController.navigate(Routes.NewTeamScreen.route)
                 },
-                searchValue = search.value
+                searchValue = search
             )
             if(teams.value.isEmpty()) {
                 Text(text = stringResource(R.string.no_calendars))
@@ -48,7 +54,11 @@ fun HomeScreen(navController : NavController) {
                 LazyColumn(
                     modifier = Modifier.fillMaxSize()
                 ) {
-                    items(teams.value) {
+                    items(
+                        teams.value.filter { team ->
+                            team.name.contains(search)
+                        }
+                    ) {
                         Box(modifier = Modifier.padding(horizontal = 16.dp)) {
                             CalendarCard(calendar = it, onCardClick = {})
                         }

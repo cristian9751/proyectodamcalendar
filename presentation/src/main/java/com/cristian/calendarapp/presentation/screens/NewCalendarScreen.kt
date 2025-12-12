@@ -17,6 +17,7 @@ import com.cristian.calendarapp.presentation.components.CustomInputField
 import com.cristian.calendarapp.presentation.utils.sharedViewModelOnSubGraph
 import com.cristian.calendarapp.presentation.viewmodel.TeamsViewModel
 import com.cristian.calendarapp.presentation.R
+import com.cristian.calendarapp.presentation.components.ErrorText
 
 @Composable
 fun NewTeamScreen(navController: NavController) {
@@ -81,7 +82,7 @@ fun NewTeamScreen(navController: NavController) {
                 Button(
                     onClick = {
                         teamViewModel.addTeam(name, description)
-                        navController.navigateUp()
+                        if(uiState !is UiState.Error) navController.navigateUp()
                     },
                     enabled = isSaveButtonEnabled,
                     modifier = Modifier.weight(1f),

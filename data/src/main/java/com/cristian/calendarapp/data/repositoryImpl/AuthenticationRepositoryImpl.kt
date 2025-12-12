@@ -77,17 +77,6 @@ class AuthenticationRepositoryImpl @Inject constructor(
         }
     }
 
-
-            override suspend fun signInWithGoogle(): Result<Unit> {
-
-            try {
-                auth.signInWith(Google)
-                return Result.success(Unit)
-            } catch(e : Exception) {
-                return Result.failure(DomainError.InvalidCredential())
-            }
-        }
-
      override suspend fun findAuthenticatedUserId() : Result<String> {
         val sessionStatus = auth.sessionStatus
             .filter { sessionStatus -> sessionStatus !is SessionStatus.Initializing }
