@@ -57,7 +57,7 @@ class TeamsViewModel @Inject constructor(
                             team.toModel()
                         }
 
-                        _uiState.value = UiState.Success
+                        _uiState.value = UiState.Idle
 
 
 
@@ -70,7 +70,7 @@ class TeamsViewModel @Inject constructor(
 
 
     fun addTeam(name : String, description : String) {
-        val team = TeamModel(name = name, description = description, id = UUID.randomUUID().toString())
+        val team = TeamModel(name = name.lowercase().trim(), description = description.lowercase().trim(), id = UUID.randomUUID().toString())
         val currentTeams  = _teams.value.orEmpty().toMutableList()
         currentTeams.add(team)
         _teams.value = currentTeams

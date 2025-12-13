@@ -31,7 +31,11 @@ fun NewTeamScreen(navController: NavController) {
         }
     }
 
-
+    LaunchedEffect(uiState) {
+        if(uiState is UiState.Success) {
+            navController.navigateUp()
+        }
+    }
     AppScaffold(
         uiState = uiState,
         title = stringResource(R.string.new_calendar)
@@ -42,6 +46,9 @@ fun NewTeamScreen(navController: NavController) {
                 .padding(paddingValues),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+
+            ErrorText(uiState)
+
             CustomInputField(
                 value = name,
                 onValueChangeCallback = { newName, _ ->
@@ -82,7 +89,6 @@ fun NewTeamScreen(navController: NavController) {
                 Button(
                     onClick = {
                         teamViewModel.addTeam(name, description)
-                        if(uiState !is UiState.Error) navController.navigateUp()
                     },
                     enabled = isSaveButtonEnabled,
                     modifier = Modifier.weight(1f),
