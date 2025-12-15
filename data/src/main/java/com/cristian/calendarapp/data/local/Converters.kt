@@ -1,6 +1,7 @@
 package com.cristian.calendarapp.data.local
 
 import androidx.room.TypeConverter
+import com.cristian.calendarapp.domain.ROLE
 import java.util.Date
 
 class Converters {
@@ -14,5 +15,11 @@ class Converters {
     @TypeConverter
     fun dateToTimeStamp(date : Date?) : Long? {
         return date?.time?.toLong()
+    }
+
+    @TypeConverter
+    fun stringToRole(role : String) : ROLE {
+        return ROLE.valueOf(role)
+
     }
 }

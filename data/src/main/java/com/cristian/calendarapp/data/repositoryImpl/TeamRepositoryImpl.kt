@@ -72,14 +72,4 @@ class TeamRepositoryImpl @Inject constructor(
     }
 
 
-    override suspend fun getTeamWithEvents(teamId : String) : Result<Team> {
-        val team = teamDAO.getTeamWithEvents(teamId)
-        if(team !== null) {
-            return Result.success(team.toDomain())
-        }
-        return Result.failure(exception = DomainError.NotFound.TeamNotFound())
-
-    }
-
-
 }

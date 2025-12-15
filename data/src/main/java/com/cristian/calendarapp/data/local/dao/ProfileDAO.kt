@@ -15,8 +15,8 @@ interface ProfileDAO {
     @Delete
     suspend fun deleteProfile(profile : ProfileEntity)
 
-    @Query("SELECT * FROM profile")
-    suspend fun getProfile() : ProfileEntity
+    @Query("SELECT * FROM profile LIMIT 1")
+    suspend fun getProfile() : ProfileEntity?
 
 
 }

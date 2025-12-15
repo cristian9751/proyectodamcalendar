@@ -40,7 +40,7 @@ class TeamsViewModel @Inject constructor(
     }
 
 
-    fun getTeams() {
+    private fun getTeams() {
         getTeamsUseCase()
             .onEach { resource ->
                 when(resource) {
@@ -66,6 +66,11 @@ class TeamsViewModel @Inject constructor(
 
             }
             .launchIn(viewModelScope)
+    }
+
+
+    fun setUiState(uiState : UiState) {
+        _uiState.value = uiState
     }
 
 

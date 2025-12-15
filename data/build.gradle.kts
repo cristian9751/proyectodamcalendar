@@ -1,10 +1,11 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import java.util.Properties
 
-plugins {
+    plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.ksp)
+    kotlin("plugin.serialization") version(libs.versions.kotlin)
 }
 
 android {
@@ -66,7 +67,6 @@ dependencies {
     implementation(libs.supabase.realtime)
     implementation(libs.supabase.auth)
     implementation(libs.supabase.storage)
-
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

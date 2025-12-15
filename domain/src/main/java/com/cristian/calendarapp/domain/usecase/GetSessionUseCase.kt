@@ -3,7 +3,9 @@ package com.cristian.calendarapp.domain.usecase
 import com.cristian.calendarapp.domain.DomainError
 import com.cristian.calendarapp.domain.Resource
 import com.cristian.calendarapp.domain.repository.AuthenticationRepository
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
 class GetSessionUseCase @Inject constructor(
@@ -17,5 +19,5 @@ class GetSessionUseCase @Inject constructor(
             val error = result.exceptionOrNull() ?: DomainError.Unexpected()
             emit(Resource.Error(error as Exception))
         }
-    }
+    }.flowOn(Dispatchers.IO)
 }

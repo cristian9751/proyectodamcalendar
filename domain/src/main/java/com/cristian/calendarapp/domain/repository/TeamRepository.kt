@@ -14,6 +14,4 @@ interface TeamRepository {
 
     suspend fun getById(id : String) : Result<Team>
     suspend fun getByName(name : String) : Result<Team>
-
-    suspend fun getTeamWithEvents(teamId : String) : Result<Team>
 }

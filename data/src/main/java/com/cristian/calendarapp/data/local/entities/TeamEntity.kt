@@ -4,19 +4,24 @@ import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.PrimaryKey
 import com.cristian.calendarapp.domain.entity.Team
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.Transient
 
+@Serializable
 @Entity(tableName = "teams")
 data class TeamEntity(
     @PrimaryKey
     var id : String,
     var name : String,
     var  description : String,
+    @Transient
     var isSynchronized : Boolean = false,
 
 
 ) {
 
     @Ignore
+    @Transient
     private var events : List<EventEntity> = emptyList()
 
     fun setEvents(events : List<EventEntity>) {

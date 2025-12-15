@@ -18,10 +18,11 @@ object RoomModule {
     @Provides
     fun provideRoomDatabase(@ApplicationContext applicationContext: Context): LocalDatabase {
         return Room.databaseBuilder(
-            applicationContext,
-            LocalDatabase::class.java,
-            "calendar_app_database"
-        ).build()
+                applicationContext,
+                LocalDatabase::class.java,
+                "calendar_app_database"
+            ).fallbackToDestructiveMigration(true)
+        .build()
     }
 
 

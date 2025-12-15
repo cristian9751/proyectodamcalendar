@@ -1,15 +1,14 @@
 package com.cristian.calendarapp.data.repositoryImpl
 
+import com.cristian.calendarapp.data.SupabaseSync
 import com.cristian.calendarapp.domain.DomainError
 import com.cristian.calendarapp.domain.entity.User
 import com.cristian.calendarapp.domain.repository.AuthenticationRepository
 import io.github.jan.supabase.auth.Auth
 import io.github.jan.supabase.auth.exception.AuthErrorCode
 import io.github.jan.supabase.auth.exception.AuthRestException
-import io.github.jan.supabase.auth.providers.Google
 import io.github.jan.supabase.auth.providers.builtin.Email
 import io.github.jan.supabase.auth.status.SessionStatus
-import io.github.jan.supabase.postgrest.Postgrest
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.first
@@ -22,7 +21,7 @@ import javax.inject.Inject
 
 class AuthenticationRepositoryImpl @Inject constructor(
     private val auth : Auth,
-   private val postgrest : Postgrest
+    private val supabaseSync: SupabaseSync
 ) : AuthenticationRepository {
     override suspend fun signIn(
         email: String,
@@ -83,7 +82,9 @@ class AuthenticationRepositoryImpl @Inject constructor(
             .map { sessionStatus ->
                 when(sessionStatus) {
                     is SessionStatus.Authenticated -> {
-                        Result.success(sessionStatus.session.user?.id ?: "")
+                        supabaseSync(sessionStatus.session.user?.id!!)
+                        Result.success(sessionStatus.session.user?.id!!)
+
                     }
 
                     is SessionStatus.NotAuthenticated -> {

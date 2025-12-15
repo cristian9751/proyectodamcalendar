@@ -12,7 +12,7 @@ import com.cristian.calendarapp.data.local.entities.TeamEntity
 
 @Database(
     entities = [EventEntity::class, TeamEntity::class, ProfileEntity::class],
-    version = 1
+    version = 3
 )
 @TypeConverters(Converters::class)
 abstract class LocalDatabase  : RoomDatabase(){
