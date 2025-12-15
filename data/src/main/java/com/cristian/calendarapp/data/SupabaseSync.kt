@@ -23,6 +23,7 @@ import javax.inject.Singleton
         this.currentUserId = currentUserId
         getProfile()
         getTeams()
+
     }
 
     private lateinit var currentUserId : String
@@ -45,27 +46,26 @@ import javax.inject.Singleton
 
     }
 
+
     private suspend fun getTeams() {
         val supabaseResult = postgrest.from(
             schema = "public",
-            table = "user_teams"
-
-        ).select(
-            columns = Columns.raw("""
-                team_id,
-                user_id,
-                team ( id, name, description )
-            """.trimIndent())
-        ) {
+            table = "team"
+        ).select(Columns.raw("id, name, description, user_details(user_id)")) {
             filter {
-                eq("user_id", currentUserId)
+                eq("user_details.user_id", currentUserId)
             }
         }.decodeList<TeamEntity>()
 
+
         if(supabaseResult.isNotEmpty()) {
             supabaseResult.forEach { team ->
-                teamDAO.insertTeam(team.apply { this.isSynchronized = true })
+                if(!team.isSynchronized) {
+                    teamDAO.insertTeamWithEvents(team)
+                }
             }
         }
     }
+
+
 }

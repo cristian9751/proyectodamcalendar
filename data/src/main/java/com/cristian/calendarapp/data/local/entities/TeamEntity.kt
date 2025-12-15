@@ -4,6 +4,7 @@ import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.PrimaryKey
 import com.cristian.calendarapp.domain.entity.Team
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
 
@@ -12,7 +13,9 @@ import kotlinx.serialization.Transient
 data class TeamEntity(
     @PrimaryKey
     var id : String,
+    @SerialName("name")
     var name : String,
+    @SerialName("description")
     var  description : String,
     @Transient
     var isSynchronized : Boolean = false,
