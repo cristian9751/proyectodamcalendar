@@ -24,7 +24,7 @@ class TeamsViewModel @Inject constructor(
     private val getTeamsUseCase: GetTeamsUseCase,
     private val createTeamUseCase: CreateTeamUseCase,
 
-) : ViewModel() {
+    ) : ViewModel() {
 
     private val _uiState = MutableLiveData<UiState>()
     val uiState : LiveData<UiState> = _uiState
@@ -36,7 +36,7 @@ class TeamsViewModel @Inject constructor(
 
 
     init {
-      getTeams()
+        getTeams()
     }
 
 
@@ -104,4 +104,3 @@ class TeamsViewModel @Inject constructor(
         _teams.value = currentTeams
     }
 }
-

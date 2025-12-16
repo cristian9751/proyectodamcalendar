@@ -61,7 +61,8 @@ dependencies {
     implementation(libs.room.ktx)
 
     //Dependencias de supabase y ktor
-    implementation(libs.ktor.client.android)
+    implementation(libs.ktor.client.websockets)
+    implementation(libs.ktor.client.okhttp)
     implementation(platform(libs.supabase.bom))
     implementation(libs.supabase.postgrest)
     implementation(libs.supabase.realtime)

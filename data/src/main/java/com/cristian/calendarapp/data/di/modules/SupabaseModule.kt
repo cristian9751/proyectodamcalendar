@@ -12,6 +12,8 @@ import io.github.jan.supabase.auth.auth
 import io.github.jan.supabase.createSupabaseClient
 import io.github.jan.supabase.postgrest.Postgrest
 import io.github.jan.supabase.postgrest.postgrest
+import io.github.jan.supabase.realtime.Realtime
+import io.github.jan.supabase.realtime.realtime
 import io.github.jan.supabase.storage.Storage
 import io.github.jan.supabase.storage.storage
 import javax.inject.Singleton
@@ -34,6 +36,7 @@ object SupabaseModule {
                 scheme = "calendarapp"
             }
             install(Storage)
+            install(Realtime)
         }
     }
 
@@ -47,6 +50,12 @@ object SupabaseModule {
     @Singleton
     fun provideSupabaseAuth(client: SupabaseClient): Auth {
         return client.auth
+    }
+
+    @Provides
+    @Singleton
+    fun provideSupabaseRealTime(client : SupabaseClient) : Realtime {
+        return client.realtime
     }
 
 

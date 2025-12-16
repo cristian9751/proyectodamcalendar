@@ -4,7 +4,7 @@ import com.cristian.calendarapp.domain.entity.Team
 
 
 data class TeamModel(
-    val id : String = "",
+    val id : String,
     val name : String,
     val description : String,
     val eventCount : Int = 0

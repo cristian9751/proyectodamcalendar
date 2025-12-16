@@ -33,6 +33,10 @@ class AuthenticationRepositoryImpl @Inject constructor(
                 this.password = password
             }
 
+            auth.currentUserOrNull()?.let { user ->
+                supabaseSync(user.id)
+            }
+
         } catch (e: Exception) {
             return if(e is AuthRestException && e.error == AuthErrorCode.InvalidCredentials.value) {
                 Result.failure(exception = DomainError.InvalidCredential())

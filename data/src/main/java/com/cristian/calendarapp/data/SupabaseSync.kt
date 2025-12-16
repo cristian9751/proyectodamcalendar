@@ -1,32 +1,45 @@
 package com.cristian.calendarapp.data
 
-import android.content.Context
+import android.util.Log
 import com.cristian.calendarapp.data.local.dao.ProfileDAO
 import com.cristian.calendarapp.data.local.dao.TeamDAO
 import com.cristian.calendarapp.data.local.entities.ProfileEntity
 import com.cristian.calendarapp.data.local.entities.TeamEntity
 import io.github.jan.supabase.postgrest.Postgrest
-import io.github.jan.supabase.postgrest.query.Columns
+import io.github.jan.supabase.realtime.PostgresAction
+import io.github.jan.supabase.realtime.Realtime
+import io.github.jan.supabase.realtime.channel
+import io.github.jan.supabase.realtime.decodeOldRecord
+import io.github.jan.supabase.realtime.decodeRecord
+import io.github.jan.supabase.realtime.postgresChangeFlow
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.launch
+import kotlinx.serialization.json.buildJsonObject
+import kotlinx.serialization.json.put
 import javax.inject.Inject
 import javax.inject.Singleton
 
 
 @Singleton
  class SupabaseSync @Inject constructor(
+    val scope : CoroutineScope,
     val postgrest : Postgrest,
+    val realtime : Realtime,
     val profileDAO: ProfileDAO,
     val teamDAO: TeamDAO,
 
-)  {
+) {
 
-    suspend operator fun invoke(currentUserId : String ) {
+    suspend operator fun invoke(currentUserId: String) {
         this.currentUserId = currentUserId
         getProfile()
         getTeams()
+        uploadTeams()
 
     }
 
-    private lateinit var currentUserId : String
+    private lateinit var currentUserId: String
 
 
     private suspend fun getProfile() {
@@ -47,24 +60,105 @@ import javax.inject.Singleton
     }
 
 
-    private suspend fun getTeams() {
-        val supabaseResult = postgrest.from(
-            schema = "public",
-            table = "team"
-        ).select(Columns.raw("id, name, description, user_details(user_id)")) {
-            filter {
-                eq("user_details.user_id", currentUserId)
-            }
-        }.decodeList<TeamEntity>()
 
+    private fun listenToChanges(
+        channelName : String,
+        schemaName : String = "public",
+        deleteCb : suspend (PostgresAction.Delete) -> Unit,
+        insertCb : suspend (PostgresAction.Insert) -> Unit,
+        updateCb : suspend (PostgresAction.Update) -> Unit
+    ) {
+        val channel = realtime.channel(channelName)
+        val flow = channel.postgresChangeFlow<PostgresAction>(schema = schemaName)
+        scope.launch {
+            channel.subscribe()
+            flow.filter { action -> action !is PostgresAction.Select }.collect { action ->
+                when (action) {
+                    is PostgresAction.Delete -> {
+                        Log.i("DELETE", "DELETE CB")
+                        deleteCb(action)
 
-        if(supabaseResult.isNotEmpty()) {
-            supabaseResult.forEach { team ->
-                if(!team.isSynchronized) {
-                    teamDAO.insertTeamWithEvents(team)
+                    }
+
+                    is PostgresAction.Insert -> {
+                        insertCb(action)
+                    }
+
+                    is PostgresAction.Update -> {
+                        updateCb(action)
+                    }
+
+                    is PostgresAction.Select -> TODO()
                 }
             }
         }
+    }
+
+
+     fun getTeams() {
+        scope.launch {
+            val result = postgrest.from("team").select().decodeList<TeamEntity>()
+            if(result.isNotEmpty()) {
+                result.forEach { team ->
+                    teamDAO.insertTeam(team.apply { this.isSynchronized = true })
+                }
+            }
+        }
+        listenToChanges(
+            channelName = "team",
+            deleteCb = {
+               val decode = it.decodeOldRecord<Map<String, String>>()
+                decode["id"]?.let { id ->
+                    teamDAO.deleteTeamById(id)
+
+                }
+            },
+            insertCb = {
+                val decode = it.decodeRecord<Map<String, String>>()
+
+                decode["id"]?.let { id ->
+                    val team =    postgrest.from("team").select {
+                        filter {
+                            eq("id", id)
+                        }
+                    }.decodeSingle<TeamEntity>()
+
+                    teamDAO.insertTeam(team.apply { this.isSynchronized = true })
+                }
+
+            },
+            updateCb = {
+                val team = it.decodeRecord<TeamEntity>()
+                teamDAO.insertTeam(team.apply { this.isSynchronized = true})
+            }
+        )
+
+    }
+
+    fun uploadTeams() {
+       scope.launch {
+           teamDAO.getTeams().collect { teams ->
+               teams.forEach { team ->
+                   Log.i("TEAM", team.id)
+                   if(!team.isSynchronized) {
+                     postgrest.from(
+                           schema = "public",
+                           table = "team"
+                       ).insert(team)
+
+                       postgrest.from(
+                           schema = "public",
+                           table = "user_teams"
+                       ).insert(
+                           buildJsonObject {
+                               put("team_id", team.id)
+                               put("user_id", currentUserId)
+                           }
+                       )
+                   }
+               }
+           }
+       }
     }
 
 

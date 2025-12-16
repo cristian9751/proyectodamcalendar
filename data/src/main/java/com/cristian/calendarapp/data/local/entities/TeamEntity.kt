@@ -13,16 +13,12 @@ import kotlinx.serialization.Transient
 data class TeamEntity(
     @PrimaryKey
     var id : String,
-    @SerialName("name")
     var name : String,
-    @SerialName("description")
     var  description : String,
+
+    )  {
     @Transient
-    var isSynchronized : Boolean = false,
-
-
-) {
-
+    var isSynchronized : Boolean = false
     @Ignore
     @Transient
     private var events : List<EventEntity> = emptyList()

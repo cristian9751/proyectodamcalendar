@@ -24,6 +24,8 @@ abstract class TeamDAO {
     @Delete
     abstract suspend fun deleteTeam(team : TeamEntity)
 
+    @Query("DELETE FROM teams WHERE id = :id")
+    abstract suspend fun deleteTeamById(id : String)
 
     @Query("SELECT * FROM teams WHERE id = :id")
     abstract suspend fun getTeamById(id : String) : TeamEntity?
