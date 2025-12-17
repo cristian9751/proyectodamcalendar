@@ -41,4 +41,6 @@
     <string name="cancel_text">Cancelar</string>
     <string name="create_calendar_text">Crear calendario</string>
     <string name="home_text">Inicio</string>
+    <string name="unathorized_error">No tienes permisos para realizar esta accion</string>
+    <string name="member">Miembro</string>
 </resources>

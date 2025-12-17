@@ -76,16 +76,12 @@ class TeamsViewModel @Inject constructor(
 
     fun addTeam(name : String, description : String) {
         val team = TeamModel(name = name.lowercase().trim(), description = description.lowercase().trim(), id = UUID.randomUUID().toString())
-        val currentTeams  = _teams.value.orEmpty().toMutableList()
-        currentTeams.add(team)
-        _teams.value = currentTeams
         createTeamUseCase(team.toDomain()).onEach { resource ->
             when(resource) {
                 is Resource.Loading -> {
                     _uiState.value = UiState.Loading
                 }
                 is Resource.Error -> {
-                    removeTeam(team)
                     _uiState.value = UiState.Error(errorResourceId = getUiErrorResourceId(resource.domainError as DomainError))
                 }
 
@@ -95,12 +91,5 @@ class TeamsViewModel @Inject constructor(
             }
         }.launchIn(viewModelScope)
 
-    }
-
-
-    private fun removeTeam(team : TeamModel) {
-        val currentTeams = _teams.value.orEmpty().toMutableList()
-        currentTeams.remove(team)
-        _teams.value = currentTeams
     }
 }

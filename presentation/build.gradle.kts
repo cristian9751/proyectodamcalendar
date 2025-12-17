@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.ksp)
     alias(libs.plugins.kotlin.compose)
+    kotlin("plugin.serialization") version(libs.versions.kotlin)
 }
 
 android {

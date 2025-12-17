@@ -7,8 +7,12 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -18,7 +22,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.cristian.calendarapp.presentation.UiState
+import com.cristian.calendarapp.presentation.utils.Profile
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -26,6 +32,9 @@ import com.cristian.calendarapp.presentation.UiState
 fun  AppScaffold(
     uiState : UiState,
     title :  String,
+    navController: NavController,
+    showProfileIcon : Boolean = true,
+    currentUserId : String = "",
     content : @Composable (PaddingValues) -> Unit
 ) {
     if(uiState is UiState.Loading) {
@@ -54,6 +63,22 @@ fun  AppScaffold(
                             color = MaterialTheme.colorScheme.onBackground,
                             fontWeight = FontWeight.Bold
                         )
+                    },
+                    actions = {
+                        if(showProfileIcon) {
+                            IconButton(
+                                onClick = {
+                                    navController.navigate(Profile(currentUserId, currentUserId))
+                                }
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Default.Person
+                                    , contentDescription = null,
+                                    tint = MaterialTheme.colorScheme.onBackground
+                                )
+                            }
+                        }
+
                     }
                 )
             },

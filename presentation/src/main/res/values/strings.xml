@@ -41,4 +41,6 @@
     <string name="cancel_text">Cancel</string>
     <string name="create_calendar_text">Create calendar</string>
     <string name="home_text">Home</string>
+    <string name="unathorized_error">You can\'t do that</string>
+    <string name="member">Member</string>
 </resources>

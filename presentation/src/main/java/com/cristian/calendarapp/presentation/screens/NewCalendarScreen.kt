@@ -18,9 +18,10 @@ import com.cristian.calendarapp.presentation.utils.sharedViewModelOnSubGraph
 import com.cristian.calendarapp.presentation.viewmodel.TeamsViewModel
 import com.cristian.calendarapp.presentation.R
 import com.cristian.calendarapp.presentation.components.ErrorText
+import com.cristian.calendarapp.presentation.viewmodel.SessionViewModel
 
 @Composable
-fun NewTeamScreen(navController: NavController) {
+fun NewTeamScreen(navController: NavController, sessionViewModel: SessionViewModel) {
     val teamViewModel : TeamsViewModel = navController.sharedViewModelOnSubGraph<TeamsViewModel>()
     val uiState by teamViewModel.uiState.observeAsState(initial = UiState.Idle)
     var name by remember { mutableStateOf("") }
@@ -38,6 +39,8 @@ fun NewTeamScreen(navController: NavController) {
     }
     AppScaffold(
         uiState = uiState,
+        navController = navController,
+        currentUserId = sessionViewModel.currentUserId.value.toString(),
         title = stringResource(R.string.new_calendar)
     ) { paddingValues ->
         Column(

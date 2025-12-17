@@ -37,6 +37,10 @@ fun getUiErrorResourceId(error : DomainError) : Int {
         is DomainError.DuplicatedData.TeamAlreadyExists -> {
             R.string.calendar_already_exists
         }
+
+        is DomainError.Unauthorized -> {
+            R.string.unathorized_error
+        }
     }
 
 }

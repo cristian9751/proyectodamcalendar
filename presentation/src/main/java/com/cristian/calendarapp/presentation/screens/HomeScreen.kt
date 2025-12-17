@@ -23,18 +23,21 @@ import com.cristian.calendarapp.presentation.UiState
 import com.cristian.calendarapp.presentation.components.AppScaffold
 import com.cristian.calendarapp.presentation.components.CalendarCard
 import com.cristian.calendarapp.presentation.components.SearchAndNewCalendar
+import com.cristian.calendarapp.presentation.viewmodel.SessionViewModel
 import com.cristian.calendarapp.presentation.viewmodel.TeamsViewModel
 
 
 @Composable
-fun HomeScreen(navController : NavController) {
+fun HomeScreen(navController : NavController, sessionViewModel: SessionViewModel) {
     val teamsViewModel : TeamsViewModel = hiltViewModel()
     val uiState = teamsViewModel.uiState.observeAsState(initial = UiState.Idle)
     val teams  = teamsViewModel.teams.observeAsState(initial = emptyList())
     var search by remember { mutableStateOf("") }
     AppScaffold(
         uiState = uiState.value,
-        title = stringResource(R.string.home_text)
+        title = stringResource(R.string.home_text),
+        navController = navController,
+        currentUserId =  sessionViewModel.currentUserId.value.toString()
     ) { paddingValues ->
         Column(
             modifier = Modifier.padding(paddingValues)

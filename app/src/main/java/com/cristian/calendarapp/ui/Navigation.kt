@@ -13,8 +13,11 @@ import com.cristian.calendarapp.presentation.UiState
 import com.cristian.calendarapp.presentation.screens.HomeScreen
 import com.cristian.calendarapp.presentation.screens.LoginScreen
 import com.cristian.calendarapp.presentation.screens.NewTeamScreen
+import com.cristian.calendarapp.presentation.screens.ProfileScreen
 import com.cristian.calendarapp.presentation.screens.SignUpScreen
 import com.cristian.calendarapp.presentation.screens.SplashScreen
+import com.cristian.calendarapp.presentation.utils.Calendar
+import com.cristian.calendarapp.presentation.utils.Profile
 import com.cristian.calendarapp.presentation.viewmodel.SessionViewModel
 
 @Composable
@@ -43,24 +46,20 @@ fun Navigation() {
 
         navigation(startDestination = Routes.HomeScreen.route, route = Routes.TeamsScreen.route) {
             composable(route = Routes.HomeScreen.route) {
-                HomeScreen(navController)
+                HomeScreen(navController, sessionViewModel)
             }
 
             composable(route = Routes.NewTeamScreen.route) {
-                NewTeamScreen(navController)
+                NewTeamScreen(navController, sessionViewModel)
             }
         }
 
-        navigation(startDestination =  Routes.HomeScreen.route, route = Routes.MainNav.route) {
-            composable(route = Routes.ProfileScreen.route) {
-                //Profile screen
-            }
+        composable<Profile> {
+            ProfileScreen(navController)
+        }
 
-            composable(route = Routes.CalendarScreen.route) {
-                //Calendar screen
-            }
-
-
+        composable<Calendar> {
+            //Calendar screen
         }
 
 

@@ -36,6 +36,7 @@ import javax.inject.Singleton
         getProfile()
         getTeams()
         uploadTeams()
+        uploadProfile()
 
     }
 
@@ -56,7 +57,29 @@ import javax.inject.Singleton
             profileDAO.updateProfile(profile.apply { this.isSynchronized = true })
         }
 
+        listenToChanges(
+            channelName = "user_details",
+            schemaName = "public",
+            updateCb = { action ->
+                val profile = action.decodeRecord<ProfileEntity>().apply { this.isSynchronized = true }
+                profileDAO.updateProfile(profile)
+            }
+        )
 
+
+    }
+
+    fun uploadProfile() {
+        scope.launch {
+            profileDAO.getProfile().collect { profile ->
+                if(!profile.isSynchronized) {
+                    postgrest.from(
+                        schema = "public",
+                        table = "user_details"
+                    ).upsert(profile)
+                }
+            }
+        }
     }
 
 
@@ -64,9 +87,9 @@ import javax.inject.Singleton
     private fun listenToChanges(
         channelName : String,
         schemaName : String = "public",
-        deleteCb : suspend (PostgresAction.Delete) -> Unit,
-        insertCb : suspend (PostgresAction.Insert) -> Unit,
-        updateCb : suspend (PostgresAction.Update) -> Unit
+        deleteCb : suspend (PostgresAction.Delete) -> Unit = {},
+        insertCb : suspend (PostgresAction.Insert) -> Unit = {},
+        updateCb : suspend (PostgresAction.Update) -> Unit = {}
     ) {
         val channel = realtime.channel(channelName)
         val flow = channel.postgresChangeFlow<PostgresAction>(schema = schemaName)
@@ -75,7 +98,6 @@ import javax.inject.Singleton
             flow.filter { action -> action !is PostgresAction.Select }.collect { action ->
                 when (action) {
                     is PostgresAction.Delete -> {
-                        Log.i("DELETE", "DELETE CB")
                         deleteCb(action)
 
                     }
