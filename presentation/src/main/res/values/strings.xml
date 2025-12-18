@@ -45,4 +45,7 @@
     <string name="member">Member</string>
     <string name="user_not_found">User not found</string>
     <string name="update">Update</string>
+    <string name="admin">administrator</string>
+    <string name="moderator">Moderator</string>
+    <string name="role_label">Role</string>
 </resources>

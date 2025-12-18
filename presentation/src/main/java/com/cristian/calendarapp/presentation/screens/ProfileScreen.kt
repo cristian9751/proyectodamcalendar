@@ -1,5 +1,7 @@
 package com.cristian.calendarapp.presentation.screens
 
+import RoleDropDownMenu
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.Arrangement
@@ -10,9 +12,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -35,6 +39,7 @@ fun ProfileScreen(navController: NavController) {
     val lastname by profileViewModel.lastname.observeAsState(initial = "")
     val email by profileViewModel.email.observeAsState(initial = "")
     val role by profileViewModel.role.observeAsState(initial = "")
+    var isSubmitButtonEnabled by remember { mutableStateOf(true) }
 
 
     AppScaffold(
@@ -65,12 +70,6 @@ fun ProfileScreen(navController: NavController) {
                 color = MaterialTheme.colorScheme.onBackground
             )
 
-            Text(
-                text = role,
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.outline
-            )
-
             Spacer(modifier = Modifier.height(32.dp))
 
             Card(
@@ -80,6 +79,18 @@ fun ProfileScreen(navController: NavController) {
                 )
             ) {
                 Column(modifier = Modifier.padding(16.dp)) {
+                    RoleDropDownMenu(
+                        selectedRole = role,
+                        onMemberSelected = {
+                            profileViewModel.setRole(ROLE.MEMBER.toString())
+                        },
+                        onModeratorSelected = {
+                            profileViewModel.setRole(ROLE.MODERATOR.toString())
+                        },
+                        onAdminSelected = {
+                            profileViewModel.setRole(ROLE.ADMIN.toString())
+                        }
+                    )
                     NameField(
                         name = firstname,
                         label = stringResource(R.string.firstname_label),
@@ -104,10 +115,16 @@ fun ProfileScreen(navController: NavController) {
                         showValidationErrorMessage = true,
                         onValueChange = { newEmail, isValid ->
                             profileViewModel.setEmail(newEmail)
+                            isSubmitButtonEnabled = isValid
                         }
                     )
 
+
+
+
+
                     Button(
+                        enabled = isSubmitButtonEnabled,
                         onClick =  {
                             profileViewModel.updateProfile()
                         },

@@ -79,6 +79,10 @@ class ProfileViewModel @Inject constructor(
         _email.postValue(email)
     }
 
+    fun setRole(role : String) {
+        _role.postValue(role)
+    }
+
     fun updateProfile() {
          val user = User(
             id = args.userId,
