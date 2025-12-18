@@ -19,24 +19,34 @@ class UpdateUserInfoUseCase @Inject constructor(
         val currentUser =  repository.findAuthenticatedUser().getOrNull()
 
 
-       currentUser?.let { currentUser ->
-           if(currentUser.id !== user.id) {
-               if(currentUser.role !== ROLE.ADMIN) emit(Resource.Error(DomainError.Unauthorized()))
-               val findByIdResult = repository.findUserById(user.id)
-               if(findByIdResult.isFailure) {
-                   val error = findByIdResult.exceptionOrNull() ?: DomainError.Unexpected()
-                   emit(Resource.Error(error as Exception))
-               }
-           }
-           val result = repository.updateUser(user)
-           if(result.isSuccess) {
-               emit(Resource.Success(data = result.getOrNull()))
+        currentUser?.let { currentUser ->
+            if(currentUser.id !== user.id) {
+                if(currentUser.role !== ROLE.ADMIN) {
+                    emit(Resource.Error(DomainError.Unauthorized()))
+                } else {
+                    val findByIdResult = repository.findUserById(user.id)
+                    if(findByIdResult.isFailure) {
+                        val error = findByIdResult.exceptionOrNull() ?: DomainError.Unexpected()
+                        emit(Resource.Error(error as Exception))
+                    }
+                }
 
-           } else {
-               val error = result.exceptionOrNull() ?: DomainError.Unexpected()
-               emit(Resource.Error(error as Exception))
-           }
-       }
+            } else {
+                if(user.role !== currentUser.role && currentUser.role !== ROLE.ADMIN) {
+                    emit(Resource.Error(DomainError.Unauthorized()))
+                } else {
+                    val result = repository.updateUser(user)
+                    if(result.isSuccess) {
+                        emit(Resource.Success(data = result.getOrNull()))
+
+                    } else {
+                        val error = result.exceptionOrNull() ?: DomainError.Unexpected()
+                        emit(Resource.Error(error as Exception))
+                    }
+                }
+            }
+
+        }
 
 
 
