@@ -36,3 +36,16 @@ fun ProfileEntity.toDomain() : User {
         role = this.role
     )
 }
+
+fun User.toEntity() : ProfileEntity {
+    return ProfileEntity(
+        userId = this.id,
+        firstname = this.firstname,
+        lastname = this.lastname,
+        email = this.email,
+        role = this.role,
+        isSynchronized = true
+
+    )
+
+}

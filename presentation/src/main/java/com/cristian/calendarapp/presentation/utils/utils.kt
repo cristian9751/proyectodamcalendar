@@ -41,6 +41,10 @@ fun getUiErrorResourceId(error : DomainError) : Int {
         is DomainError.Unauthorized -> {
             R.string.unathorized_error
         }
+
+        is DomainError.NotFound.UserNotFound -> {
+            R.string.user_not_found
+        }
     }
 
 }

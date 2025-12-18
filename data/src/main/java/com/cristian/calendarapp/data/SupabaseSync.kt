@@ -30,13 +30,19 @@ import javax.inject.Singleton
     val teamDAO: TeamDAO,
 
 ) {
+     companion object {
+         var isExecuted : Boolean = false
+     }
 
     suspend operator fun invoke(currentUserId: String) {
-        this.currentUserId = currentUserId
-        getProfile()
-        getTeams()
-        uploadTeams()
-        uploadProfile()
+      if(!isExecuted) {
+          this.currentUserId = currentUserId
+          getProfile()
+          getTeams()
+          uploadTeams()
+          uploadProfile()
+          isExecuted = true
+      }
 
     }
 
@@ -116,6 +122,13 @@ import javax.inject.Singleton
         }
     }
 
+    private suspend fun getTeamById(id : String) : TeamEntity {
+        return postgrest.from("team").select {
+            filter {
+                eq("id", id)
+            }
+        }.decodeSingle<TeamEntity>()
+    }
 
      fun getTeams() {
         scope.launch {
@@ -139,19 +152,18 @@ import javax.inject.Singleton
                 val decode = it.decodeRecord<Map<String, String>>()
 
                 decode["id"]?.let { id ->
-                    val team =    postgrest.from("team").select {
-                        filter {
-                            eq("id", id)
-                        }
-                    }.decodeSingle<TeamEntity>()
+                    val team =   getTeamById(id)
 
                     teamDAO.insertTeam(team.apply { this.isSynchronized = true })
                 }
 
             },
             updateCb = {
-                val team = it.decodeRecord<TeamEntity>()
-                teamDAO.insertTeam(team.apply { this.isSynchronized = true})
+                val decode = it.decodeRecord<Map<String, String>>()
+                decode["id"]?.let { id ->
+                   val team = getTeamById(id)
+                    teamDAO.insertTeam(team.apply { this.isSynchronized = true })
+                }
             }
         )
 

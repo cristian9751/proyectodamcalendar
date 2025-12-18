@@ -43,4 +43,6 @@
     <string name="home_text">Home</string>
     <string name="unathorized_error">You can\'t do that</string>
     <string name="member">Member</string>
+    <string name="user_not_found">User not found</string>
+    <string name="update">Update</string>
 </resources>

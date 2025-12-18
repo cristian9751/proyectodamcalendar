@@ -5,7 +5,7 @@ import androidx.navigation.toRoute
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class Profile(val userId : String, val currentUserId : String) {
+data class Profile(val userId : String) {
     companion object {
         fun from(savedStateHandle: SavedStateHandle) : Profile {
             return savedStateHandle.toRoute<Profile>()

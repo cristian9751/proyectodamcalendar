@@ -68,7 +68,7 @@ fun  AppScaffold(
                         if(showProfileIcon) {
                             IconButton(
                                 onClick = {
-                                    navController.navigate(Profile(currentUserId, currentUserId))
+                                    navController.navigate(Profile(currentUserId))
                                 }
                             ) {
                                 Icon(

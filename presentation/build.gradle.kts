@@ -43,6 +43,9 @@ android {
 
 dependencies {
     implementation(project(":domain"))
+
+    implementation(libs.coil)
+
     //Dependenias de dagger hlt
     implementation(libs.dagger.hilt)
     ksp(libs.dagger.compiler)
