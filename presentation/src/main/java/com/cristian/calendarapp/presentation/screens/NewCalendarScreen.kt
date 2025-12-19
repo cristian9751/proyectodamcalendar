@@ -35,6 +35,7 @@ fun NewTeamScreen(navController: NavController, sessionViewModel: SessionViewMod
     LaunchedEffect(uiState) {
         if(uiState is UiState.Success) {
             navController.navigateUp()
+            teamViewModel.setUiState(UiState.Idle)
         }
     }
     AppScaffold(
@@ -79,8 +80,8 @@ fun NewTeamScreen(navController: NavController, sessionViewModel: SessionViewMod
 
                 Button(
                     onClick = {
-                        navController.navigateUp()
                         teamViewModel.setUiState(UiState.Idle)
+                        navController.navigateUp()
                     },
                     modifier = Modifier.weight(1f),
                     colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
@@ -93,6 +94,7 @@ fun NewTeamScreen(navController: NavController, sessionViewModel: SessionViewMod
                 Button(
                     onClick = {
                         teamViewModel.addTeam(name, description)
+                        navController.navigateUp()
                     },
                     enabled = isSaveButtonEnabled,
                     modifier = Modifier.weight(1f),
