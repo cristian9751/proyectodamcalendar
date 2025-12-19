@@ -16,6 +16,7 @@ import com.cristian.calendarapp.presentation.screens.NewTeamScreen
 import com.cristian.calendarapp.presentation.screens.ProfileScreen
 import com.cristian.calendarapp.presentation.screens.SignUpScreen
 import com.cristian.calendarapp.presentation.screens.SplashScreen
+import com.cristian.calendarapp.presentation.screens.UserSearchScreen
 import com.cristian.calendarapp.presentation.utils.Calendar
 import com.cristian.calendarapp.presentation.utils.Profile
 import com.cristian.calendarapp.presentation.viewmodel.SessionViewModel
@@ -60,6 +61,10 @@ fun Navigation() {
 
         composable<Calendar> {
             //Calendar screen
+        }
+
+        composable(route = Routes.UserSearchScreen.route) {
+            UserSearchScreen(navController)
         }
 
 

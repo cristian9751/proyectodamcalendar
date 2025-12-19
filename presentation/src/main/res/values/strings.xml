@@ -30,7 +30,7 @@
     <string name="not_authenticated_error">You need to login first</string>
     <string name="calendar_not_found">Calendar not  found</string>
     <string name="calendar_already_exists">That calendar already exists</string>
-    <string name="search_label">Search calendars and events..</string>
+    <string name="search_label_calendar">Search calendars and events..</string>
     <string name="new_calendar">New Calendar</string>
     <string name="events_text">events</string>
     <string name="no_calendars">There are no calendars available</string>
@@ -48,4 +48,7 @@
     <string name="admin">administrator</string>
     <string name="moderator">Moderator</string>
     <string name="role_label">Role</string>
+    <string name="search">Search</string>
+    <string name="search_label_user">Search user</string>
+    <string name="not_authorized_to_change_role">You are not authorized to change this user\'s role</string>
 </resources>

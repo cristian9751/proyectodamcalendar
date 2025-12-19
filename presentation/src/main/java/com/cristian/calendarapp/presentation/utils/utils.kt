@@ -38,8 +38,12 @@ fun getUiErrorResourceId(error : DomainError) : Int {
             R.string.calendar_already_exists
         }
 
-        is DomainError.Unauthorized -> {
+        is DomainError.Unauthorized.NotAuhtorized -> {
             R.string.unathorized_error
+        }
+
+        is DomainError.Unauthorized.NotAuthorizedToChangeRole -> {
+            R.string.not_authorized_to_change_role
         }
 
         is DomainError.NotFound.UserNotFound -> {

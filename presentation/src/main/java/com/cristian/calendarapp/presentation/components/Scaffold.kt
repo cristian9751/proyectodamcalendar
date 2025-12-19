@@ -8,6 +8,9 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.ModeEdit
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -23,6 +26,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.cristian.calendarapp.presentation.Routes
 import com.cristian.calendarapp.presentation.UiState
 import com.cristian.calendarapp.presentation.utils.Profile
 
@@ -34,6 +38,8 @@ fun  AppScaffold(
     title :  String,
     navController: NavController,
     showProfileIcon : Boolean = true,
+    isAdministrator : Boolean = false,
+    showBackButton : Boolean = true,
     currentUserId : String = "",
     content : @Composable (PaddingValues) -> Unit
 ) {
@@ -64,6 +70,21 @@ fun  AppScaffold(
                             fontWeight = FontWeight.Bold
                         )
                     },
+                    navigationIcon = {
+                       if(showBackButton) {
+                           IconButton(
+                               onClick = {
+                                   navController.navigateUp()
+                               }
+                           ){
+                               Icon(
+                                   imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                                   contentDescription = null,
+                                   tint = MaterialTheme.colorScheme.onBackground
+                               )
+                           }
+                       }
+                    },
                     actions = {
                         if(showProfileIcon) {
                             IconButton(
@@ -74,6 +95,20 @@ fun  AppScaffold(
                                 Icon(
                                     imageVector = Icons.Default.Person
                                     , contentDescription = null,
+                                    tint = MaterialTheme.colorScheme.onBackground
+                                )
+                            }
+                        }
+
+                        if(isAdministrator) {
+                            IconButton(
+                                onClick = {
+                                    navController.navigate(Routes.UserSearchScreen.route)
+                                }
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Default.ModeEdit,
+                                    contentDescription = null,
                                     tint = MaterialTheme.colorScheme.onBackground
                                 )
                             }

@@ -32,47 +32,10 @@ import com.cristian.calendarapp.presentation.R
 
 @Composable
 fun CalendarCard(calendar : TeamModel, onCardClick : ( ) -> Unit) {
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 4.dp)
-            .clickable { /**TODO*/ },
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
-        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
-        shape = RoundedCornerShape(12.dp)
-    ) {
-        Row(
-            modifier = Modifier.padding(16.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Box(
-                modifier = Modifier
-                    .size(48.dp)
-                    .clip(RoundedCornerShape(8.dp))
-                    .background(MaterialTheme.colorScheme.primary),
-                contentAlignment = Alignment.Center
-            ) {
-                Icon(
-                    imageVector = Icons.Default.CalendarToday,
-                    contentDescription = null,
-                    tint = MaterialTheme.colorScheme.onSurface,
-                    modifier = Modifier.size(24.dp)
-                )
-            }
-            Spacer(modifier = Modifier.width(16.dp))
-            Column {
-                Text(
-                    text = calendar.name,
-                    color = MaterialTheme.colorScheme.onBackground,
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.SemiBold
-                )
-                Text(
-                    text = "${calendar.eventCount} ${stringResource(R.string.events_text)}",
-                    color = Color.Gray,
-                    fontSize = 14.sp
-                )
-            }
-        }
-    }
+   ItemCard(
+       title = calendar.name,
+       subtitle = "${calendar.eventCount} ${stringResource(R.string.events_text)}",
+       icon = Icons.Default.CalendarToday,
+       onCardClick
+   )
 }

@@ -30,7 +30,7 @@
     <string name="not_authenticated_error">Para continuar, debes iniciar sesion</string>
     <string name="calendar_not_found">El calendario especificado no existe</string>
     <string name="calendar_already_exists">El calendario ya existe</string>
-    <string name="search_label">Buscar calendarios o eventos...</string>
+    <string name="search_label_calendar">Buscar calendarios o eventos...</string>
     <string name="new_calendar">Nuevo Calendario</string>
     <string name="events_text">evento</string>
     <string name="no_calendars">No hay calendarios</string>
@@ -48,4 +48,7 @@
     <string name="admin">Administrador</string>
     <string name="moderator">Moderador</string>
     <string name="role_label">Rol</string>
+    <string name="search">Buscar</string>
+    <string name="search_label_user">Buscar usuario</string>
+    <string name="not_authorized_to_change_role">No tienes permisos para cambiar los roles del usuario</string>
 </resources>

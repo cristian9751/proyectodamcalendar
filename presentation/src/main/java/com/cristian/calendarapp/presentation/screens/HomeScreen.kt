@@ -3,8 +3,12 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -17,12 +21,13 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.cristian.calendarapp.domain.ROLE
 import com.cristian.calendarapp.presentation.R
 import com.cristian.calendarapp.presentation.Routes
 import com.cristian.calendarapp.presentation.UiState
 import com.cristian.calendarapp.presentation.components.AppScaffold
 import com.cristian.calendarapp.presentation.components.CalendarCard
-import com.cristian.calendarapp.presentation.components.SearchAndNewCalendar
+import com.cristian.calendarapp.presentation.components.SearchAndButton
 import com.cristian.calendarapp.presentation.viewmodel.SessionViewModel
 import com.cristian.calendarapp.presentation.viewmodel.TeamsViewModel
 
@@ -37,19 +42,24 @@ fun HomeScreen(navController : NavController, sessionViewModel: SessionViewModel
         uiState = uiState.value,
         title = stringResource(R.string.home_text),
         navController = navController,
-        currentUserId =  sessionViewModel.currentUserId.value.toString()
+        currentUserId =  sessionViewModel.currentUserId.value.toString(),
+        isAdministrator = sessionViewModel.isAdministrator.value as Boolean,
+        showBackButton = false,
     ) { paddingValues ->
         Column(
             modifier = Modifier.padding(paddingValues)
         ) {
-            SearchAndNewCalendar(
+            SearchAndButton(
                 onSearchValueChange = {
                     search = it
                 },
-                onNewCalendarClicked = {
+                onButtonClicked = {
                     navController.navigate(Routes.NewTeamScreen.route)
                 },
-                searchValue = search
+                searchValue = search,
+                placeholder = stringResource(R.string.search_label_calendar),
+                buttonLabel = stringResource(R.string.new_calendar),
+                buttonIcon = { Icon(Icons.Default.Add, contentDescription = stringResource(R.string.new_calendar), modifier = Modifier.size(20.dp)) }
             )
             if(teams.value.isEmpty()) {
                 Text(text = stringResource(R.string.no_calendars))

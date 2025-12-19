@@ -29,6 +29,7 @@ import com.cristian.calendarapp.presentation.components.AppScaffold
 import com.cristian.calendarapp.presentation.viewmodel.ProfileViewModel
 import com.cristian.calendarapp.presentation.R
 import com.cristian.calendarapp.presentation.components.EmailInputField
+import com.cristian.calendarapp.presentation.components.ErrorText
 import com.cristian.calendarapp.presentation.components.NameField
 
 @Composable
@@ -63,6 +64,7 @@ fun ProfileScreen(navController: NavController) {
 
             Spacer(modifier = Modifier.height(16.dp))
 
+            ErrorText(uiState)
             Text(
                 text = "$firstname $lastname",
                 style = MaterialTheme.typography.headlineSmall,

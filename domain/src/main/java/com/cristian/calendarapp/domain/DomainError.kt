@@ -4,7 +4,10 @@ package com.cristian.calendarapp.domain
 sealed class DomainError(private val errorMessage : String) : Exception(errorMessage) {
     class InvalidCredential : DomainError(errorMessage = "Invalid credentials")
 
-    class Unauthorized : DomainError(errorMessage = "You are not authorized to access this resource")
+    sealed class Unauthorized(private val action : String) : DomainError(errorMessage = "You are not authorized to $action") {
+        class NotAuthorizedToChangeRole() : Unauthorized("change role" )
+        class NotAuhtorized() : Unauthorized("to access this resource")
+    }
     sealed class DuplicatedData(private val name: String ) : DomainError(errorMessage =  "$name already exists") {
         class EmailAlreadyExists() : DuplicatedData("Email")
         class TeamAlreadyExists() : DuplicatedData("Team")

@@ -20,9 +20,9 @@ class UpdateUserInfoUseCase @Inject constructor(
 
 
         currentUser?.let { currentUser ->
-            if(currentUser.id !== user.id) {
+            if(currentUser.id != user.id) {
                 if(currentUser.role !== ROLE.ADMIN) {
-                    emit(Resource.Error(DomainError.Unauthorized()))
+                    emit(Resource.Error(DomainError.Unauthorized.NotAuhtorized()))
                 } else {
                     val findByIdResult = repository.findUserById(user.id)
                     if(findByIdResult.isFailure) {
@@ -32,8 +32,8 @@ class UpdateUserInfoUseCase @Inject constructor(
                 }
 
             } else {
-                if(user.role !== currentUser.role && currentUser.role !== ROLE.ADMIN) {
-                    emit(Resource.Error(DomainError.Unauthorized()))
+                if((user.role !== currentUser.role )&& currentUser.role !== ROLE.ADMIN) {
+                    emit(Resource.Error(DomainError.Unauthorized.NotAuthorizedToChangeRole()))
                 } else {
                     val result = repository.updateUser(user)
                     if(result.isSuccess) {

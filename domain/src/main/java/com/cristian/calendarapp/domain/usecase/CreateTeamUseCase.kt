@@ -20,7 +20,7 @@ class CreateTeamUseCase @Inject constructor(
         emit(Resource.Loading())
         val role = roleRepository.getAuthenticatedUserRole().getOrNull()
         if(role !== ROLE.ADMIN) {
-            emit(Resource.Error(error = DomainError.Unauthorized()))
+            emit(Resource.Error(error = DomainError.Unauthorized.NotAuhtorized()))
         } else {
             if(repository.getByName(team.name).isSuccess) {
                 emit(Resource.Error(error = DomainError.DuplicatedData.TeamAlreadyExists()))

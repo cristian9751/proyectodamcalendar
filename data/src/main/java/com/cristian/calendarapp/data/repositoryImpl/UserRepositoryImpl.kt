@@ -40,6 +40,26 @@ class UserRepositoryImpl @Inject constructor(
 
     }
 
+    override suspend fun findUsersByName(name: String): Result<List<User>> {
+        try {
+            val result = postgrest.from(
+                table = "user_details",
+                schema = "public"
+            ).select {
+                filter {
+                   or {
+                       ilike("firstname", "%$name%")
+                       ilike("lastname", "%$name%")
+                   }
+                }
+            }.decodeList<ProfileEntity>()
+
+            return Result.success(ProfileEntity.toDomainList(result))
+        } catch (e : Exception) {
+           return Result.failure(DomainError.Unexpected())
+        }
+    }
+
     override suspend fun updateUser(user : User): Result<Boolean> {
         try {
             profileDAO.updateProfile(user.toEntity().apply { this.isSynchronized = false })

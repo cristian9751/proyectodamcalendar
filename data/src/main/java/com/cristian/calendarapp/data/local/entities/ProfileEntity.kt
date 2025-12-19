@@ -25,7 +25,15 @@ data class ProfileEntity(
     var role : ROLE,
     @Transient
      var isSynchronized: Boolean = false
-)
+) {
+    companion object{
+        fun toDomainList(profiles : List<ProfileEntity>) : List<User> {
+            return profiles.map { profile ->
+                profile.toDomain()
+            }
+        }
+    }
+}
 
 fun ProfileEntity.toDomain() : User {
     return User(
@@ -49,3 +57,4 @@ fun User.toEntity() : ProfileEntity {
     )
 
 }
+
