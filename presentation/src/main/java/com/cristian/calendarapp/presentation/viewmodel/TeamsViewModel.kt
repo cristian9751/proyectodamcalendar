@@ -2,6 +2,7 @@ package com.cristian.calendarapp.presentation.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.cristian.calendarapp.domain.DomainError
@@ -12,6 +13,7 @@ import com.cristian.calendarapp.presentation.UiState
 import com.cristian.calendarapp.presentation.model.TeamModel
 import com.cristian.calendarapp.presentation.model.toDomain
 import com.cristian.calendarapp.presentation.model.toModel
+import com.cristian.calendarapp.presentation.utils.Calendar
 import com.cristian.calendarapp.presentation.utils.getUiErrorResourceId
 import dagger.hilt.android.lifecycle.HiltViewModel
 import jakarta.inject.Inject
@@ -22,10 +24,9 @@ import java.util.UUID
 @HiltViewModel
 class TeamsViewModel @Inject constructor(
     private val getTeamsUseCase: GetTeamsUseCase,
-    private val createTeamUseCase: CreateTeamUseCase,
+    private val createTeamUseCase: CreateTeamUseCase
 
     ) : ViewModel() {
-
     private val _uiState = MutableLiveData<UiState>()
     val uiState : LiveData<UiState> = _uiState
 
@@ -38,7 +39,6 @@ class TeamsViewModel @Inject constructor(
     init {
         getTeams()
     }
-
 
     private fun getTeams() {
         getTeamsUseCase()

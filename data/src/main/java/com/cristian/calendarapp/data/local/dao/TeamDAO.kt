@@ -17,7 +17,7 @@ abstract class TeamDAO {
     @Upsert()
     abstract suspend fun insertTeam(team : TeamEntity)
 
-    @Insert
+    @Upsert
     abstract suspend fun insertEvents(events : List<EventEntity>)
 
 
@@ -36,12 +36,9 @@ abstract class TeamDAO {
     @Query("SELECT * FROM teams")
      abstract fun getTeams() : Flow<List<TeamEntity>>
 
-    @Query("SELECT * FROM teams WHERE isSynchronized = :synchronized")
-    abstract suspend fun getTeamsBySync(synchronized : Boolean) : List<TeamEntity>
-
 
     suspend fun insertTeamWithEvents(team : TeamEntity) {
-        val events : List<EventEntity> = team.getEvents()
+        val events : List<EventEntity> = team.events
         events.forEach { event ->
             event.teamId = team.id
         }
@@ -62,7 +59,7 @@ abstract class TeamDAO {
         val team = getTeamById(teamId)
        if(team !== null) {
            val events = getEventsByTeam(teamId)
-           team.setEvents(events)
+           team.events = events
 
        }
 

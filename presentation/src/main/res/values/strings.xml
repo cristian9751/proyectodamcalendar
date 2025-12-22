@@ -51,4 +51,5 @@
     <string name="search">Search</string>
     <string name="search_label_user">Search user</string>
     <string name="not_authorized_to_change_role">You are not authorized to change this user\'s role</string>
+    <string name="event_already_exists">The event you are trying to create already exists</string>
 </resources>

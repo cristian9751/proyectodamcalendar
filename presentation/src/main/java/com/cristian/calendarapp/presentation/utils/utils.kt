@@ -49,6 +49,10 @@ fun getUiErrorResourceId(error : DomainError) : Int {
         is DomainError.NotFound.UserNotFound -> {
             R.string.user_not_found
         }
+
+        is DomainError.DuplicatedData.EventAlreadyExists ->  {
+            R.string.event_already_exists
+        }
     }
 
 }

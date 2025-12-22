@@ -10,6 +10,7 @@ import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
 import com.cristian.calendarapp.presentation.Routes
 import com.cristian.calendarapp.presentation.UiState
+import com.cristian.calendarapp.presentation.screens.CalendarScreen
 import com.cristian.calendarapp.presentation.screens.HomeScreen
 import com.cristian.calendarapp.presentation.screens.LoginScreen
 import com.cristian.calendarapp.presentation.screens.NewTeamScreen
@@ -53,15 +54,20 @@ fun Navigation() {
             composable(route = Routes.NewTeamScreen.route) {
                 NewTeamScreen(navController, sessionViewModel)
             }
+
         }
 
         composable<Profile> {
             ProfileScreen(navController)
         }
-
         composable<Calendar> {
-            //Calendar screen
+            CalendarScreen(navController)
         }
+
+
+
+
+
 
         composable(route = Routes.UserSearchScreen.route) {
             UserSearchScreen(navController)

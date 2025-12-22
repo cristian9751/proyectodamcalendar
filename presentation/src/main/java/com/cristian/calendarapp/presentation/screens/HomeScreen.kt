@@ -28,13 +28,15 @@ import com.cristian.calendarapp.presentation.UiState
 import com.cristian.calendarapp.presentation.components.AppScaffold
 import com.cristian.calendarapp.presentation.components.CalendarCard
 import com.cristian.calendarapp.presentation.components.SearchAndButton
+import com.cristian.calendarapp.presentation.utils.Calendar
+import com.cristian.calendarapp.presentation.utils.sharedViewModelOnSubGraph
 import com.cristian.calendarapp.presentation.viewmodel.SessionViewModel
 import com.cristian.calendarapp.presentation.viewmodel.TeamsViewModel
 
 
 @Composable
 fun HomeScreen(navController : NavController, sessionViewModel: SessionViewModel) {
-    val teamsViewModel : TeamsViewModel = hiltViewModel()
+    val teamsViewModel : TeamsViewModel = navController.sharedViewModelOnSubGraph<TeamsViewModel>()
     val uiState = teamsViewModel.uiState.observeAsState(initial = UiState.Idle)
     val teams  = teamsViewModel.teams.observeAsState(initial = emptyList())
     var search by remember { mutableStateOf("") }
@@ -73,7 +75,9 @@ fun HomeScreen(navController : NavController, sessionViewModel: SessionViewModel
                         }
                     ) {
                         Box(modifier = Modifier.padding(horizontal = 16.dp)) {
-                            CalendarCard(calendar = it, onCardClick = {})
+                            CalendarCard(calendar = it, onCardClick = {
+                                navController.navigate(Calendar(it.id))
+                            })
                         }
                     }
                 }

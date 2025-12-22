@@ -49,7 +49,7 @@ fun  AppScaffold(
                 .fillMaxSize()
                 .padding(24.dp)
                 .background(MaterialTheme.colorScheme.surface),
-            contentAlignment = Alignment.CenterStart,
+            contentAlignment = Alignment.Center,
         ) {
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,

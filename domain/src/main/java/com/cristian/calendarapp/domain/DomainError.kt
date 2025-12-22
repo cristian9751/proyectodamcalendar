@@ -11,6 +11,7 @@ sealed class DomainError(private val errorMessage : String) : Exception(errorMes
     sealed class DuplicatedData(private val name: String ) : DomainError(errorMessage =  "$name already exists") {
         class EmailAlreadyExists() : DuplicatedData("Email")
         class TeamAlreadyExists() : DuplicatedData("Team")
+        class EventAlreadyExists() : DuplicatedData("Event")
     }
     sealed class InvalidData(val name : String) : DomainError(errorMessage = "$name is invalid") {
         class InvalidEmail() : InvalidData("Email")

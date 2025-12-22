@@ -1,10 +1,12 @@
 package com.cristian.calendarapp.data.di.modules
 
 import com.cristian.calendarapp.data.repositoryImpl.AuthenticationRepositoryImpl
+import com.cristian.calendarapp.data.repositoryImpl.EventRepositoryImpl
 import com.cristian.calendarapp.data.repositoryImpl.RoleRepositoryImpl
 import com.cristian.calendarapp.data.repositoryImpl.TeamRepositoryImpl
 import com.cristian.calendarapp.data.repositoryImpl.UserRepositoryImpl
 import com.cristian.calendarapp.domain.repository.AuthenticationRepository
+import com.cristian.calendarapp.domain.repository.EventRepository
 import com.cristian.calendarapp.domain.repository.RoleRepository
 import com.cristian.calendarapp.domain.repository.TeamRepository
 import com.cristian.calendarapp.domain.repository.UserRepository
@@ -35,4 +37,7 @@ abstract class InterfaceModule {
     abstract fun bindUserRepository(
         userRepositoryImpl: UserRepositoryImpl
     ) : UserRepository
+
+    @Binds
+    abstract fun bindEventRepository(eventRepositoryImpl : EventRepositoryImpl) : EventRepository
 }

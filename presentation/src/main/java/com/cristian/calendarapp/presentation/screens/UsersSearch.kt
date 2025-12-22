@@ -59,7 +59,7 @@ fun UserSearchScreen(navController : NavController) {
 
     AppScaffold(
         uiState = uiState,
-        title = stringResource(R.string.home_text),
+        title = stringResource(R.string.search_label_user),
         navController = navController,
         showProfileIcon = false
     ) { paddingValues ->
@@ -97,7 +97,6 @@ fun UserSearchScreen(navController : NavController) {
                     }
 
                 }
-
             }
 
         }

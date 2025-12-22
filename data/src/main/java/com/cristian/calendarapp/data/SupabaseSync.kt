@@ -6,6 +6,7 @@ import com.cristian.calendarapp.data.local.dao.TeamDAO
 import com.cristian.calendarapp.data.local.entities.ProfileEntity
 import com.cristian.calendarapp.data.local.entities.TeamEntity
 import io.github.jan.supabase.postgrest.Postgrest
+import io.github.jan.supabase.postgrest.query.Columns
 import io.github.jan.supabase.realtime.PostgresAction
 import io.github.jan.supabase.realtime.Realtime
 import io.github.jan.supabase.realtime.channel
@@ -132,10 +133,18 @@ import javax.inject.Singleton
 
      fun getTeams() {
         scope.launch {
-            val result = postgrest.from("team").select().decodeList<TeamEntity>()
+            val result = postgrest.from("team").select(
+                Columns.raw("""
+                    *,
+                    event(*)
+                """.trimIndent())
+            ).decodeList<TeamEntity>()
             if(result.isNotEmpty()) {
                 result.forEach { team ->
-                    teamDAO.insertTeam(team.apply { this.isSynchronized = true })
+                    team.apply {
+                        this.isSynchronized = true
+                    }
+                    teamDAO.insertTeamWithEvents(team)
                 }
             }
         }
@@ -173,12 +182,14 @@ import javax.inject.Singleton
        scope.launch {
            teamDAO.getTeams().collect { teams ->
                teams.forEach { team ->
+
                    Log.i("TEAM", team.id)
                    if(!team.isSynchronized) {
                      postgrest.from(
                            schema = "public",
                            table = "team"
                        ).insert(team)
+
 
                        postgrest.from(
                            schema = "public",
@@ -189,6 +200,14 @@ import javax.inject.Singleton
                                put("user_id", currentUserId)
                            }
                        )
+                   }
+                   teamDAO.getEventsByTeam(team.id).forEach { event ->
+                       if(!event.isSynchronized) {
+                           postgrest.from(
+                               schema = "public",
+                               table = "event"
+                           ).upsert(event)
+                       }
                    }
                }
            }

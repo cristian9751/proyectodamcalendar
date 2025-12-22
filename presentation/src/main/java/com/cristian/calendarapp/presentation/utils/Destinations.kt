@@ -15,7 +15,7 @@ data class Profile(val userId : String) {
 
 
 @Serializable
-data class Calendar(val teamId : String) {
+data class Calendar(var teamId : String) {
     companion object {
         fun from(savedStateHandle: SavedStateHandle) : Calendar{
             return savedStateHandle.toRoute<Calendar>()

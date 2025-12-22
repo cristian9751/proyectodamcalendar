@@ -51,4 +51,5 @@
     <string name="search">Buscar</string>
     <string name="search_label_user">Buscar usuario</string>
     <string name="not_authorized_to_change_role">No tienes permisos para cambiar los roles del usuario</string>
+    <string name="event_already_exists">El evento ya existe</string>
 </resources>

@@ -4,6 +4,7 @@ import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.PrimaryKey
 import com.cristian.calendarapp.domain.entity.Team
+import kotlinx.serialization.Contextual
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
@@ -20,16 +21,17 @@ data class TeamEntity(
     @Transient
     var isSynchronized : Boolean = false
     @Ignore
-    @Transient
-    private var events : List<EventEntity> = emptyList()
-
-    fun setEvents(events : List<EventEntity>) {
-        this.events = events
-    }
+    @SerialName("event")
+     var events : List<EventEntity> = emptyList()
 
 
-    fun getEvents() : List<EventEntity> {
-        return this.events
+
+    companion object{
+        fun toDomainList(teams : List<TeamEntity>) {
+            teams.map { team ->
+                team.toDomain()
+            }
+        }
     }
 }
 
@@ -39,7 +41,7 @@ fun TeamEntity.toDomain( ) : Team {
         id = this.id,
         name = this.name,
         description = this.description,
-        events = this.getEvents().map { event ->
+        events = this.events.map { event ->
             event.toDomain()
         }
     )
@@ -57,6 +59,6 @@ fun Team.toLocalEntity() : TeamEntity {
         description = this.description,
 
     )
-    teamEntity.setEvents(events)
+    teamEntity.events = events
     return teamEntity
 }
