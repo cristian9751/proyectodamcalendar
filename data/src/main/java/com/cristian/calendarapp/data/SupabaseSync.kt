@@ -35,15 +35,20 @@ import javax.inject.Singleton
          var isExecuted : Boolean = false
      }
 
-    suspend operator fun invoke(currentUserId: String) {
-      if(!isExecuted) {
-          this.currentUserId = currentUserId
-          getProfile()
-          getTeams()
-          uploadTeams()
-          uploadProfile()
-          isExecuted = true
-      }
+     operator fun invoke(currentUserId: String) {
+        scope.launch {
+            do {
+                try {
+                    getProfile()
+                    getTeams()
+                    uploadTeams()
+                    uploadProfile()
+                    isExecuted = true
+                } catch (e : Exception) {
+                    isExecuted = false
+                }
+            } while(!isExecuted)
+        }
 
     }
 
