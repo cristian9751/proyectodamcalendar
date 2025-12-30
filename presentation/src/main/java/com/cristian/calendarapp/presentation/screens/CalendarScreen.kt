@@ -36,7 +36,7 @@ fun CalendarScreen(navController : NavController) {
                 event = CalendarEvent(
                     title = title,
                     description = desc,
-                    day = date.split("/")[0].toInt(),
+                    timestamp = date,
                     teamId = calendarViewModel.teamId
                 )
 
@@ -100,4 +100,3 @@ fun CalendarScreen(navController : NavController) {
     }
 
 }
-

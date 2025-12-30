@@ -23,19 +23,20 @@ import javax.inject.Singleton
 
 
 @Singleton
- class SupabaseSync @Inject constructor(
+class SupabaseSync @Inject constructor(
     val scope : CoroutineScope,
     val postgrest : Postgrest,
     val realtime : Realtime,
     val profileDAO: ProfileDAO,
     val teamDAO: TeamDAO,
 
-) {
-     companion object {
-         var isExecuted : Boolean = false
-     }
+    ) {
+    companion object {
+        var isExecuted : Boolean = false
+    }
 
-     operator fun invoke(currentUserId: String) {
+    operator fun invoke(currentUserId: String) {
+        this.currentUserId = currentUserId
         scope.launch {
             do {
                 try {
@@ -136,7 +137,7 @@ import javax.inject.Singleton
         }.decodeSingle<TeamEntity>()
     }
 
-     fun getTeams() {
+    fun getTeams() {
         scope.launch {
             val result = postgrest.from("team").select(
                 Columns.raw("""
@@ -156,7 +157,7 @@ import javax.inject.Singleton
         listenToChanges(
             channelName = "team",
             deleteCb = {
-               val decode = it.decodeOldRecord<Map<String, String>>()
+                val decode = it.decodeOldRecord<Map<String, String>>()
                 decode["id"]?.let { id ->
                     teamDAO.deleteTeamById(id)
 
@@ -175,7 +176,7 @@ import javax.inject.Singleton
             updateCb = {
                 val decode = it.decodeRecord<Map<String, String>>()
                 decode["id"]?.let { id ->
-                   val team = getTeamById(id)
+                    val team = getTeamById(id)
                     teamDAO.insertTeam(team.apply { this.isSynchronized = true })
                 }
             }
@@ -184,39 +185,39 @@ import javax.inject.Singleton
     }
 
     fun uploadTeams() {
-       scope.launch {
-           teamDAO.getTeams().collect { teams ->
-               teams.forEach { team ->
+        scope.launch {
+            teamDAO.getTeams().collect { teams ->
+                teams.forEach { team ->
 
-                   Log.i("TEAM", team.id)
-                   if(!team.isSynchronized) {
-                     postgrest.from(
-                           schema = "public",
-                           table = "team"
-                       ).insert(team)
+                    Log.i("TEAM", team.id)
+                    if(!team.isSynchronized) {
+                        postgrest.from(
+                            schema = "public",
+                            table = "team"
+                        ).insert(team)
 
 
-                       postgrest.from(
-                           schema = "public",
-                           table = "user_teams"
-                       ).insert(
-                           buildJsonObject {
-                               put("team_id", team.id)
-                               put("user_id", currentUserId)
-                           }
-                       )
-                   }
-                   teamDAO.getEventsByTeam(team.id).forEach { event ->
-                       if(!event.isSynchronized) {
-                           postgrest.from(
-                               schema = "public",
-                               table = "event"
-                           ).upsert(event)
-                       }
-                   }
-               }
-           }
-       }
+                        postgrest.from(
+                            schema = "public",
+                            table = "user_teams"
+                        ).insert(
+                            buildJsonObject {
+                                put("team_id", team.id)
+                                put("user_id", currentUserId)
+                            }
+                        )
+                    }
+                    teamDAO.getEventsByTeam(team.id).forEach { event ->
+                        if(!event.isSynchronized) {
+                            postgrest.from(
+                                schema = "public",
+                                table = "event"
+                            ).upsert(event)
+                        }
+                    }
+                }
+            }
+        }
     }
 
 

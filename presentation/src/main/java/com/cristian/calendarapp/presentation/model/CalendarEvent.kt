@@ -9,14 +9,14 @@ class CalendarEvent(
     val title : String,
     val description : String,
     val teamId : String,
-    val day : Int
+    val timestamp : Long
 )
 
 fun Event.toCalendarEvent() : CalendarEvent {
     return CalendarEvent(
         title = this.name,
         description = this.description,
-        day = this.date.day,
+        timestamp = this.date.time,
         id = this.id,
         teamId = this.teamId
     )
@@ -24,7 +24,7 @@ fun Event.toCalendarEvent() : CalendarEvent {
 
 fun CalendarEvent.toDomain()  : Event{
     val calendar = Calendar.getInstance()
-    calendar.set(Calendar.DAY_OF_MONTH, this.day)
+    calendar.set(Calendar.DATE, this.timestamp.toInt())
     return Event(
         id = this.id,
         name = this.title,

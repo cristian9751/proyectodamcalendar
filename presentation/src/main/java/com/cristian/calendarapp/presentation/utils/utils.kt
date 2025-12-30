@@ -7,6 +7,9 @@ import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
 import com.cristian.calendarapp.domain.DomainError
 import com.cristian.calendarapp.presentation.R
+import java.time.Instant
+import java.time.LocalDate
+import java.time.ZoneId
 
 fun getUiErrorResourceId(error : DomainError) : Int {
     return when (error) {
@@ -67,4 +70,8 @@ inline fun <reified  T : ViewModel> NavController.sharedViewModelOnSubGraph() : 
     }
 
     return hiltViewModel<T>(parentBackStackEntry)
+}
+
+fun Long.toLocalDate() : LocalDate {
+    return Instant.ofEpochMilli(this).atZone(ZoneId.systemDefault()).toLocalDate()
 }

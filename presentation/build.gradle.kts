@@ -43,6 +43,7 @@ android {
 
 dependencies {
     implementation(project(":domain"))
+    implementation(libs.compose.calendar)
 
     //Dependenias de dagger hlt
     implementation(libs.dagger.hilt)

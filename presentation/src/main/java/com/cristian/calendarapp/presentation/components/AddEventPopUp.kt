@@ -25,7 +25,7 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun AddEventPopUp(
     onDismiss: () -> Unit = {},
-    onConfirm: (title: String, desc: String, date: String) -> Unit
+    onConfirm: (title: String, desc: String, date: Long) -> Unit
 ) {
     var title by remember { mutableStateOf("") }
     var description by remember { mutableStateOf("") }
@@ -81,7 +81,7 @@ fun AddEventPopUp(
             Button(
                 onClick = {
                     if (title.isNotBlank()) {
-                        onConfirm(title, description, selectedDateText)
+                        onConfirm(title, description,  datePickerState.selectedDateMillis!!)
                     }
                 },
                 enabled = title.isNotBlank() && datePickerState.selectedDateMillis != null

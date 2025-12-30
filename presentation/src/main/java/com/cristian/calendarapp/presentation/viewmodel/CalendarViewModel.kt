@@ -49,9 +49,10 @@ class CalendarViewModel @Inject constructor(
                 }
                 is Resource.Success -> {
                     result.data?.let {
-                        _events.value = it.map { event ->
+                        val currentEvents = it.map { event ->
                             event.toCalendarEvent()
                         }
+                        _events.value = currentEvents
                     }
                     _uiState.value = UiState.Success
                 }

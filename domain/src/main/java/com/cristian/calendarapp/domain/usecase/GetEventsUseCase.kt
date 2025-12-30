@@ -17,7 +17,8 @@ class GetEventsUseCase @Inject constructor(
     operator fun invoke(teamId : String) = flow<Resource<List<Event>>> {
         emit(Resource.Loading())
         val result = repository.findByTeamId(teamId )
-        if(result.isSuccess)  emit(Resource.Success(data = result.getOrNull()))
+        val data = result.getOrNull()
+        if(result.isSuccess)  emit(Resource.Success(data = data))
         if(result.isFailure)  {
             val error = result.exceptionOrNull() ?: DomainError.Unexpected()
             emit(Resource.Error(error as Exception))

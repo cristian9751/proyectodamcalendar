@@ -36,22 +36,19 @@ abstract class TeamDAO {
     @Query("SELECT * FROM teams")
      abstract fun getTeams() : Flow<List<TeamEntity>>
 
-
     suspend fun insertTeamWithEvents(team : TeamEntity) {
         val events : List<EventEntity> = team.events
-        events.forEach { event ->
+        insertTeam(team)
+        events.map { event ->
             event.teamId = team.id
         }
-
         insertEvents(events)
-        insertTeam(team)
 
 
     }
 
     @Query("SELECT * FROM events WHERE teamId = :teamId")
     abstract suspend fun getEventsByTeam(teamId : String) : List<EventEntity>
-
 
 
 
