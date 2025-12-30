@@ -1,6 +1,7 @@
 package com.cristian.calendarapp.presentation.model
 
 import com.cristian.calendarapp.domain.entity.Event
+import com.cristian.calendarapp.presentation.utils.toIsoString
 import java.util.Calendar
 import java.util.UUID
 
@@ -24,7 +25,7 @@ fun Event.toCalendarEvent() : CalendarEvent {
 
 fun CalendarEvent.toDomain()  : Event{
     val calendar = Calendar.getInstance()
-    calendar.set(Calendar.DATE, this.timestamp.toInt())
+    calendar.set(Calendar.DATE, this.timestamp.toIsoString().toInt())
     return Event(
         id = this.id,
         name = this.title,

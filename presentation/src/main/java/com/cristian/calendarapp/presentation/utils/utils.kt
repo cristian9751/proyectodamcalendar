@@ -10,6 +10,8 @@ import com.cristian.calendarapp.presentation.R
 import java.time.Instant
 import java.time.LocalDate
 import java.time.ZoneId
+import java.time.ZoneOffset
+import java.time.format.DateTimeFormatter
 
 fun getUiErrorResourceId(error : DomainError) : Int {
     return when (error) {
@@ -74,4 +76,10 @@ inline fun <reified  T : ViewModel> NavController.sharedViewModelOnSubGraph() : 
 
 fun Long.toLocalDate() : LocalDate {
     return Instant.ofEpochMilli(this).atZone(ZoneId.systemDefault()).toLocalDate()
+}
+
+fun Long.toIsoString(): String {
+    return Instant.ofEpochMilli(this)
+        .atOffset(ZoneOffset.UTC)
+        .format(DateTimeFormatter.ISO_INSTANT)
 }
